@@ -1,0 +1,22 @@
+@import '../../style.scss';
+
+.home {
+	@include themify($themes) {
+		background-color: themed('bgSoft');
+		padding: 20px 50px;
+
+		scrollbar-width: none;
+		
+		&::-webkit-scrollbar {
+			display: none;
+		}
+
+		@include tablet {
+			padding: 20px;
+		}
+
+		@include mobile {
+			padding: 10px;
+		}
+	}
+}

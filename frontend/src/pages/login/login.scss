@@ -1,0 +1,118 @@
+@import '../../style.scss';
+
+.login {
+	height: 100vh;
+	background-color: $color-primary;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	.card {
+		width: 75%;
+		border-radius: 10px;
+		display: flex;
+		background-color: white;
+		overflow: hidden;
+
+		@include tablet {
+			width: 85%;
+		}
+
+		@include mobile {
+			flex-direction: column;
+			width: 100%;
+			min-height: 100%;
+			border-radius: 0;
+			overflow: scroll;
+		}
+
+		.left {
+			flex: 2;
+			background: linear-gradient(rgba(131, 113, 252, 0.7), rgba(131, 113, 252, 0.5)), url('https://images.unsplash.com/photo-1615561479656-46419d14de5a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=996&q=80') center;
+			background-size: cover;
+			padding: 48px;
+			display: flex;
+			flex-direction: column;
+			gap: 28px;
+			color: white;
+
+			@include tablet {
+				padding: 36px;
+				gap: 16px;
+			}
+
+			h1 {
+				font-size: 96px;
+				line-height: 96px;
+
+				@include tablet {
+					font-size: 72px;
+					line-height: 72px;
+				}
+			}
+
+			span {
+				font-size: 14px;
+			}
+
+			button {
+				width: 50%;
+				padding: 10px;
+				border: none;
+				background-color: white;
+				color: $color-primary;
+				font-weight: bold;
+				border-radius: 6px;
+				cursor: pointer;
+			}
+		}
+
+		.right {
+			flex: 1;
+			min-width: 200px;
+			padding: 48px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			gap: 48px;
+
+			@include tablet {
+				padding: 36px;
+				gap: 16px;
+			}
+
+			h1 {
+				color: #555;
+			}
+
+			form {
+				display: flex;
+				flex-direction: column;
+				gap: 16px;
+
+				p {
+					padding: 10px;
+					color: #dc4a4a;
+				}
+
+				input {
+					border: none;
+					outline: none;
+					border-bottom: 1px solid lightgray;
+					padding: 20px 10px;
+				}
+
+				button {
+					width: 50%;
+					padding: 10px;
+					border: none;
+					background-color: $color-secondary;
+					color: white;
+					font-weight: bold;
+					border-radius: 6px;
+					cursor: pointer;
+				}
+			}
+		}
+	}
+}
