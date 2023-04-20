@@ -39,27 +39,24 @@
 		.comment {
 			margin: 30px 0px;
 			display: flex;
-			justify-content: space-between;
+			justify-content: start;
 			gap: 20px;
 
 
-			.info {
-				flex: 5;
+			.details {
 				display: flex;
 				flex-direction: column;
-				gap: 4px;
 
 				span {
 					align-self: flex-start;
 					font-weight: 500;
 				}
-			}
 
-			.date {
-				flex: 1;
-				align-self: center;
-				color: themed('textColorSoft');
-				font-size: small;
+				.date {
+					color: themed('textColorSoft');
+					font-size: 12px;
+					margin-bottom: 10px;
+				}
 			}
 		}
 	}

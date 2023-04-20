@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken"
 import User from "../mongodb/models/user.js"
 
 export const register = async (req, res) => {
-	const { email, password, name, image, cover, city, website } = req.body
+	const { email, password, name, cover, city, website } = req.body
 	// try {
 	const salt = bcrypt.genSaltSync(10)
 	const hash = bcrypt.hashSync(password, salt)
@@ -52,19 +52,13 @@ export const login = async (req, res) => {
 					const token = jwt.sign({ id: _id }, "secretkey")
 					// Deconstruct again to return object without password
 					const { password, ...others } = doc._doc
-					console.log(req.cookies.accessToken)
-					console.log("New")
-					console.log(token)
-					console.log("Response")
 					res
 						.cookie("accessToken", token, {
 							httpOnly: true,
-							secure: true,
 							sameSite: false
 						})
 						.status(200)
 						.json({ success: true, data: others })
-					console.log(req.cookies.accessToken)
 				} else {
 					res.status(400).json({ success: false, message: "Wrong password" })
 				}

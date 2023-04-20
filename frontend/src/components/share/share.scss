@@ -23,14 +23,30 @@
 					object-fit: cover;
 				}
 
-				textarea {
-					border: none;
-					outline: none;
-					// margin: 20px 10px;
-					background-color: transparent;
-					width: 60%;
-					resize: none;
-					color: themed("textColor");
+				.content {
+					display: flex;
+					position: relative;
+					flex-direction: row;
+					width: 100%;
+
+					textarea {
+						flex: 3;
+						border: none;
+						outline: none;
+						// margin: 20px 10px;
+						background-color: transparent;
+						// width: 60%;
+						resize: none;
+						color: themed("textColor");
+					}
+
+					img {
+						flex: 100px;
+						height: auto;
+						object-fit: cover;
+						margin-left: 10px;
+						border-radius: 0%;
+					}
 				}
 			}
 
@@ -56,10 +72,6 @@
 						align-items: center;
 						gap: 10px;
 						cursor: pointer;
-
-						img {
-							height: 20px;
-						}
 
 						span {
 							font-size: 12px;
