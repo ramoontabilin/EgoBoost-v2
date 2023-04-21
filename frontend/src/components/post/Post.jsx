@@ -51,20 +51,20 @@ const Post = ({ _id, user, image, description, createdAt }) => {
 		<div className="post">
 			<div className="container">
 				<div className="user">
-					<div className="userInfo">
-						<img src={user.image} alt={user.name} />
-						<div className="details">
-							<Link to={`/profile/${user._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+					<Link to={`/profile/${user._id}`}>
+						<div className="userInfo">
+							<img src={user.image} alt={user.name} />
+							<div className="details">
 								<span className='name'>{user.name}</span>
-							</Link>
-							<span className='date'>
-								{formatDistanceToNow(parseISO(createdAt), {
-									includeSeconds: true,
-									addSuffix: true,
-								})}
-							</span>
+								<span className='date'>
+									{formatDistanceToNow(parseISO(createdAt), {
+										includeSeconds: true,
+										addSuffix: true,
+									})}
+								</span>
+							</div>
 						</div>
-					</div>
+					</Link>
 					{user._id === currentUser._id && <MoreHorizOutlined />}
 				</div>
 				<div className="content">

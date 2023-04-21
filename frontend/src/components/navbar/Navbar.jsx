@@ -27,10 +27,12 @@ const Navbar = () => {
 				{darkMode ? <WbSunnyOutlined onClick={toggle} /> : <DarkModeOutlined onClick={toggle} />}
 				<NotificationsOutlined />
 				<MessageOutlined />
-				<div className="user">
-					<img src={currentUser.image} alt={currentUser.name} />
-					<span>{currentUser.name}</span>
-				</div>
+				<Link to={`/profile/${currentUser._id}`}>
+					<div className="user">
+						<img src={currentUser.image} alt={currentUser.name} />
+						<span>{currentUser.name}</span>
+					</div>
+				</Link>
 			</div>
 		</div>
 	)

@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AuthContext } from '../../context/authContext'
 import { makeRequest } from '../../axios'
@@ -45,27 +46,6 @@ const Comments = ({ postID }) => {
 		}
 	}
 
-	// const comments = [
-	// 	{
-	// 		_id: 1,
-	// 		user: {
-	// 			name: 'Sam Sharbot',
-	// 			_id: 6,
-	// 			image: 'https://images.unsplash.com/photo-1491243658503-56c102aab1a9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80',
-	// 		},
-	// 		description: "I love seeing all of the beautiful places you're discovering on your hikes! Your photos always make me feel like I'm right there with you. Can't wait to see where you explore next!"
-	// 	},
-	// 	{
-	// 		_id: 2,
-	// 		user: {
-	// 			name: 'Ian Halberd',
-	// 			_id: 3,
-	// 			image: 'https://images.unsplash.com/photo-1501426026826-31c667bdf23d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1036&q=80',
-	// 		},
-	// 		description: "Wow, those views are absolutely breathtaking! It's inspiring to see you pushing yourself to new heights (literally and figuratively) on your hikes. Keep up the great work!"
-	// 	},
-	// ]
-
 	return (
 		<div className='comments'>
 			<div className="write">
@@ -86,9 +66,13 @@ const Comments = ({ postID }) => {
 			{isLoading ? "Loading.. " :
 				comments ? comments.map((comment) => (
 					<div className="comment" key={comment._id}>
-						<img src={comment.user.image} alt={comment.user.name} />
+						<Link to={`/profile/${comment.user._id}`}>
+							<img src={comment.user.image} alt={comment.user.name} />
+						</Link>
 						<div className="details">
-							<span>{comment.user.name}</span>
+							<Link to={`/profile/${comment.user._id}`}>
+								<span>{comment.user.name}</span>
+							</Link>
 							<span className='date'>
 								{formatDistanceToNow(parseISO(comment.createdAt), {
 									includeSeconds: true,

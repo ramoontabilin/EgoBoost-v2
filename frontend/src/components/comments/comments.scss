@@ -42,6 +42,10 @@
 			justify-content: start;
 			gap: 20px;
 
+			a {
+				text-decoration: none;
+				color: inherit;
+			}
 
 			.details {
 				display: flex;

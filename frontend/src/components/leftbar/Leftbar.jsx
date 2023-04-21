@@ -1,4 +1,5 @@
-import { useContext } from 'react';
+import { useContext } from 'react'
+import { Link } from 'react-router-dom'
 import { Collections, FastRewind, Group, Groups, LocalActivity, Message, Movie, OndemandVideo, SportsEsports, Storefront } from "@mui/icons-material"
 
 import { AuthContext } from '../../context/authContext';
@@ -10,10 +11,12 @@ const Leftbar = () => {
 		<div className='leftbar'>
 			<div className="container">
 				<div className="menu">
-					<div className="user">
-						<img src={currentUser.image} alt={currentUser.name} />
-						<span>{currentUser.name}</span>
-					</div>
+					<Link to={`/profile/${currentUser._id}`}>
+						<div className="user">
+							<img src={currentUser.image} alt={currentUser.name} />
+							<span>{currentUser.name}</span>
+						</div>
+					</Link>
 					<div className="item">
 						<Group />
 						<span>Friends</span>

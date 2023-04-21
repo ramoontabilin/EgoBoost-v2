@@ -10,13 +10,13 @@
 		overflow: scroll;
 		background-color: themed('bg');
 		color: themed(textColor);
-		
+
 		scrollbar-width: none;
-		
+
 		&::-webkit-scrollbar {
 			display: none;
 		}
-		
+
 		@include tablet {
 			width: 300px;
 			min-width: 200px;
@@ -40,6 +40,11 @@
 				display: flex;
 				flex-direction: column;
 				gap: 20px;
+
+				a {
+					text-decoration: none;
+					color: inherit;
+				}
 
 				span {
 					font-size: 12px;
