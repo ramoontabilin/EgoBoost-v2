@@ -5,7 +5,7 @@ import Post from '../post/Post'
 import './posts.scss'
 
 const Posts = () => {
-	const { isLoading, error, data } = useQuery(["posts"], () =>
+	const { isLoading, error, data: posts } = useQuery(["posts"], () =>
 		makeRequest.get("/api/v1/post").then(res => {
 			return res.data.data
 		})
@@ -13,9 +13,10 @@ const Posts = () => {
 
 	return (
 		<div className="posts">
-			{isLoading ? "Loading" : data.map((post) => (
-				<Post key={post._id} {...post} />
-			))}
+			{isLoading ? "Loading" :
+				posts ? posts.map((post) => (
+					<Post key={post._id} {...post} />
+				)) : "No posts :c"}
 		</div>
 	)
 }

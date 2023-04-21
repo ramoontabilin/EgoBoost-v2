@@ -4,7 +4,7 @@ import Comment from "../mongodb/models/comment.js"
 
 export const getComment = async (req, res) => {
 	const { postID } = req.query
-	Comment.aggregate([
+	await Comment.aggregate([
 		{
 			$match: { postID: new mongoose.Types.ObjectId(postID) }
 		},
