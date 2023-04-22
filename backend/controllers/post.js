@@ -17,10 +17,10 @@ export const getPost = async (req, res) => {
 	if (!token) return res.status(401).json({ success: false, message: "Not logged in." })
 	jwt.verify(token, "secretkey", async (error, userInfo) => {
 		if (error) return res.status(403).json({ success: false, message: "Token is not valid." })
+		const { userID } = req.query
+		const userArray = [{ $match: { userID: new mongoose.Types.ObjectId(userID) } }]
 		Post.aggregate([
-			// {
-			// 	$match: { userID: new mongoose.Types.ObjectId(userInfo.id) }
-			// },
+			...(userID ? userArray : []),
 			{
 				$lookup:
 				{
@@ -38,7 +38,7 @@ export const getPost = async (req, res) => {
 			},
 			{
 				$sort: { "createdAt": -1 }
-			}
+			},
 		])
 			.then((data) => {
 				if (data) {

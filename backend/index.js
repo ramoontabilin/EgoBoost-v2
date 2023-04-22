@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser"
 import connectDB from "./mongodb/connect.js"
 import authRoute from "./routes/auth.js"
 import commentRoute from "./routes/comment.js"
+import followRoute from "./routes/follow.js"
 import likeRoute from "./routes/like.js"
 import postRoute from "./routes/post.js"
 import userRoute from "./routes/user.js"
@@ -24,6 +25,7 @@ app.use(cookieParser())
 
 app.use('/api/v1/auth', authRoute)
 app.use('/api/v1/comment', commentRoute)
+app.use('/api/v1/follow', followRoute)
 app.use('/api/v1/like', likeRoute)
 app.use('/api/v1/post', postRoute)
 app.use('/api/v1/user', userRoute)
