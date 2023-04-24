@@ -151,6 +151,6 @@ export const update = async (req, res) => {
 				})
 		}
 
-		updateUser((image && await replacePhoto(image, imageOld)), (cover && await replacePhoto(cover, coverOld)))
+		updateUser((image ? await replacePhoto(image, imageOld) : imageOld), (cover ? await replacePhoto(cover, coverOld) : coverOld))
 	})
 }
