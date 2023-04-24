@@ -7,6 +7,7 @@ import { FavoriteBorderOutlined, FavoriteOutlined, TextsmsOutlined, ShareOutline
 import { AuthContext } from '../../context/authContext'
 import { makeRequest } from '../../axios'
 import Comments from '../comments/Comments'
+import noImage from '../../assets/ccclaymoji.svg'
 import './post.scss'
 
 const Post = ({ _id, user, image, description, createdAt }) => {
@@ -53,7 +54,7 @@ const Post = ({ _id, user, image, description, createdAt }) => {
 				<div className="user">
 					<Link to={`/profile/${user._id}`}>
 						<div className="userInfo">
-							<img src={user.image} alt={user.name} />
+							<img src={user.image ? user.image : noImage} alt={user.name} />
 							<div className="details">
 								<span className='name'>{user.name}</span>
 								<span className='date'>
@@ -75,7 +76,7 @@ const Post = ({ _id, user, image, description, createdAt }) => {
 				</div>
 				<div className="info">
 					<div className="item">
-						{likes?.includes(currentUser._id) ? <FavoriteOutlined onClick={handleLike} /> : <FavoriteBorderOutlined onClick={handleLike} />}
+						{likes?.includes(currentUser._id) ? <FavoriteOutlined htmlColor='hotPink' onClick={handleLike} /> : <FavoriteBorderOutlined onClick={handleLike} />}
 						{`${likes?.length} like${likes?.length == 1 ? "" : "s"}`}
 					</div>
 					<div className="item">

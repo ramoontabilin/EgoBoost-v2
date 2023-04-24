@@ -1,9 +1,10 @@
 import { useContext, useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Image, Close, Delete } from '@mui/icons-material'
 import { AuthContext } from '../../context/authContext'
-import './share.scss'
 import { makeRequest } from '../../axios'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import noImage from '../../assets/ccclaymoji.svg'
+import './share.scss'
 
 const Share = () => {
 	const [loading, setLoading] = useState(false)
@@ -60,7 +61,7 @@ const Share = () => {
 		<div className="share">
 			<div className="container">
 				<div className="top">
-					<img src={currentUser.image} alt={currentUser.name} />
+					<img src={currentUser.image ? currentUser.image : noImage} alt={currentUser.name} />
 					<div className="content">
 						<textarea
 							type="text"

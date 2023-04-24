@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { AuthContext } from '../../context/authContext'
+import noImage from '../../assets/ccclaymoji.svg'
 import './stories.scss'
 
 const Stories = () => {
@@ -42,7 +43,7 @@ const Stories = () => {
 		<div className='stories'>
 			<div className="story">
 				<div className='gradient' />
-				<img src={currentUser.image} alt={currentUser.name} />
+				<img src={currentUser.image ? currentUser.image : noImage} alt={currentUser.name} />
 				<span>{currentUser.name}</span>
 				<button>+</button>
 			</div>

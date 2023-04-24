@@ -1,10 +1,11 @@
 import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { formatDistanceToNow, parseISO } from 'date-fns'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AuthContext } from '../../context/authContext'
 import { makeRequest } from '../../axios'
+import noImage from '../../assets/ccclaymoji.svg'
 import './comments.scss'
-import { formatDistanceToNow, parseISO } from 'date-fns'
 
 const Comments = ({ postID }) => {
 	const [description, setDescription] = useState('')
@@ -19,9 +20,6 @@ const Comments = ({ postID }) => {
 	const mutation = useMutation(async (newComment) => {
 		try {
 			await makeRequest.post(`${import.meta.env.VITE_BASE_URL}/api/v1/comment`, newComment)
-				.then(() => {
-					setDescription("")
-				})
 		} catch (error) {
 			console.log(error.message)
 			if (error.response?.data?.message) {
@@ -31,6 +29,9 @@ const Comments = ({ postID }) => {
 	}, {
 		onSuccess: () => {
 			queryClient.invalidateQueries([`comments-${postID}`])
+				.then(() => {
+					setDescription("")
+				})
 		},
 		onError: (error) => {
 			console.log(error)
@@ -49,7 +50,7 @@ const Comments = ({ postID }) => {
 	return (
 		<div className='comments'>
 			<div className="write">
-				<img src={currentUser.image} alt={currentUser.name} />
+				<img src={currentUser.image ? currentUser.image : noImage} alt={currentUser.name} />
 				<input
 					type="text"
 					placeholder='Say something good!'
@@ -67,7 +68,7 @@ const Comments = ({ postID }) => {
 				comments ? comments.map((comment) => (
 					<div className="comment" key={comment._id}>
 						<Link to={`/profile/${comment.user._id}`}>
-							<img src={comment.user.image} alt={comment.user.name} />
+							<img src={comment.user.image ? comment.user.image : noImage} alt={comment.user.name} />
 						</Link>
 						<div className="details">
 							<Link to={`/profile/${comment.user._id}`}>

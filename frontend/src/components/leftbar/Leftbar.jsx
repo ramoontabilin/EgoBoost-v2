@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Collections, FastRewind, Group, Groups, LocalActivity, Message, Movie, OndemandVideo, SportsEsports, Storefront } from "@mui/icons-material"
 
 import { AuthContext } from '../../context/authContext';
+import noImage from '../../assets/ccclaymoji.svg'
 import './leftbar.scss'
 
 const Leftbar = () => {
@@ -13,7 +14,7 @@ const Leftbar = () => {
 				<div className="menu">
 					<Link to={`/profile/${currentUser._id}`}>
 						<div className="user">
-							<img src={currentUser.image} alt={currentUser.name} />
+							<img src={currentUser.image ? currentUser.image : noImage} alt={currentUser.name} />
 							<span>{currentUser.name}</span>
 						</div>
 					</Link>

@@ -1,6 +1,17 @@
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+import * as dotenv from "dotenv"
+import { v2 as cloudinary } from "cloudinary"
 import User from "../mongodb/models/user.js"
+
+dotenv.config()
+
+cloudinary.config({
+	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+	api_key: process.env.CLOUDINARY_CLOUD_API_KEY,
+	api_secret: process.env.CLOUDINARY_CLOUD_SECRET,
+})
+
 
 export const register = async (req, res) => {
 	const { email, password, name, cover, city, website } = req.body
@@ -19,7 +30,7 @@ export const register = async (req, res) => {
 					email,
 					password: hash,
 					name,
-					image: "https://res.cloudinary.com/dfj09rce1/image/upload/v1680833182/kfjnf8azvi42frzibf15.png",
+					image,
 					cover,
 					city,
 					website,
@@ -78,4 +89,68 @@ export const logout = async (req, res) => {
 		secure: true,
 		sameSite: false
 	}).status(200).json({ success: true, message: "User has been logged out" })
+}
+
+export const update = async (req, res) => {
+	const token = req.cookies.accessToken
+	if (!token) return res.status(401).json({ success: false, message: "Not logged in." })
+	jwt.verify(token, "secretkey", async (error, userInfo) => {
+		if (error) return res.status(403).json({ success: false, message: "Token is not valid." })
+		const { name, image, cover, city, website, imageOld, coverOld } = req.body
+		const _id = userInfo.id
+
+		const uploadPhoto = async (image) => {
+			return cloudinary.uploader.upload(image)
+				.then((data) => {
+					return data.secure_url
+				})
+				.catch((error) => {
+					console.log(error)
+					res.status(500).json({ success: false, message: error.message })
+				})
+		}
+
+		const replacePhoto = async (image, url) => {
+			if (url) {
+				const publicID = url.split("/").at(-1).split(".")[0]
+				return cloudinary.uploader.destroy(publicID)
+					.then(async () => {
+						const url = await uploadPhoto(image)
+						return url
+					})
+					.catch((error) => {
+						console.log(error)
+						res.status(500).json({ success: false, message: error.message })
+					})
+			} else {
+				return uploadPhoto(image)
+					.then((url) => {
+						return url
+					})
+			}
+		}
+
+		const updateUser = async (image, cover) => {
+			await User.findOneAndUpdate(
+				{
+					_id
+				},
+				{
+					name,
+					image,
+					cover,
+					city,
+					website,
+				}
+			)
+				.then((data) => {
+					res.status(202).json({ success: true, data: data })
+				})
+				.catch((error) => {
+					res.status(500).json({ success: false, message: error.message })
+				})
+		}
+
+		updateUser((image && await replacePhoto(image, imageOld)), (cover && await replacePhoto(cover, coverOld)))
+	})
 }

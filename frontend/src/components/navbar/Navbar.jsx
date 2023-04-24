@@ -4,6 +4,7 @@ import { HomeOutlined, DarkModeOutlined, GridViewOutlined, WbSunnyOutlined, Noti
 
 import { DarkModeContext } from '../../context/darkModeContext'
 import { AuthContext } from '../../context/authContext'
+import noImage from '../../assets/ccclaymoji.svg'
 import './navbar.scss'
 
 const Navbar = () => {
@@ -29,7 +30,7 @@ const Navbar = () => {
 				<MessageOutlined />
 				<Link to={`/profile/${currentUser._id}`}>
 					<div className="user">
-						<img src={currentUser.image} alt={currentUser.name} />
+						<img src={currentUser.image ? currentUser.image : noImage} alt={currentUser.name} />
 						<span>{currentUser.name}</span>
 					</div>
 				</Link>
