@@ -189,7 +189,7 @@ const Profile = () => {
 				<div className="profileDetails">
 					<form action="">
 						<div className="top">
-							<Email />
+							{/* <Email /> */}
 							<MoreVert />
 						</div>
 						<div className="center">

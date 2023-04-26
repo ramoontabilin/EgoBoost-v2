@@ -3,6 +3,8 @@ import mongoose from "mongoose"
 import * as dotenv from "dotenv"
 import { v2 as cloudinary } from "cloudinary"
 import Post from "../mongodb/models/post.js"
+import Like from "../mongodb/models/like.js"
+import Comment from "../mongodb/models/comment.js"
 
 dotenv.config()
 
@@ -96,5 +98,76 @@ export const addPost = async (req, res) => {
 					res.status(500).json({ success: false, message: error.message })
 				})
 		}
+	})
+}
+
+export const deletePost = async (req, res) => {
+	const token = req.cookies.accessToken
+	if (!token) return res.status(401).json({ success: false, message: "Not logged in." })
+	jwt.verify(token, "secretkey", async (error, userInfo) => {
+		if (error) return res.status(403).json({ success: false, message: "Token is not valid." })
+		const { _id } = req.query
+		const userID = userInfo.id
+
+		const deleteLikes = async (postID) => {
+			await Like.deleteMany({ postID })
+				.then((data) => {
+					return
+				})
+				.catch((error) => {
+					res.status(500).json({ success: false, message: error.message })
+				})
+		}
+
+		const deleteComments = async (postID) => {
+			await Comment.deleteMany({ postID })
+				.then((data) => {
+					return
+				})
+				.catch((error) => {
+					res.status(500).json({ success: false, message: error.message })
+				})
+		}
+
+		const deletePhoto = async (url) => {
+			const publicID = url.split("/").at(-1).split(".")[0]
+			return cloudinary.uploader.destroy(publicID)
+				.then(() => {
+					return
+				})
+				.catch((error) => {
+					console.log(error)
+					res.status(500).json({ success: false, message: error.message })
+				})
+		}
+
+		await Post.findOne({
+			_id,
+			userID,
+		})
+			.then((data) => {
+				const { image, _id } = data
+				const promises = [deleteLikes(_id), deleteComments(_id), image && deletePhoto(image)]
+				Promise.allSettled(promises)
+					.then((data) => {
+						Post.deleteOne({
+							_id,
+							userID
+						})
+							.then((data) => {
+								res.status(200).json({ success: true, data: data })
+							})
+							.catch((error) => {
+								res.status(500).json({ success: false, message: error.message })
+							})
+					})
+					.catch((error) => {
+						res.status(500).json({ success: false, message: error.message })
+					})
+			})
+			.catch((error) => {
+				res.status(500).json({ success: false, message: error.message })
+			})
+
 	})
 }

@@ -12,7 +12,6 @@ cloudinary.config({
 	api_secret: process.env.CLOUDINARY_CLOUD_SECRET,
 })
 
-
 export const register = async (req, res) => {
 	const { email, password, name, cover, city, website } = req.body
 	// try {
@@ -144,7 +143,7 @@ export const update = async (req, res) => {
 				}
 			)
 				.then((data) => {
-					res.status(202).json({ success: true, data: data })
+					res.status(200).json({ success: true, data: data })
 				})
 				.catch((error) => {
 					res.status(500).json({ success: false, message: error.message })

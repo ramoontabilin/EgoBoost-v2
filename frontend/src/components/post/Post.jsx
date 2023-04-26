@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { formatDistanceToNow, parseISO } from 'date-fns'
-import { FavoriteBorderOutlined, FavoriteOutlined, TextsmsOutlined, ShareOutlined, MoreHorizOutlined } from '@mui/icons-material'
+import { FavoriteBorderOutlined, FavoriteOutlined, TextsmsOutlined, ShareOutlined, MoreHorizOutlined, Delete, Close } from '@mui/icons-material'
 
 import { AuthContext } from '../../context/authContext'
 import { makeRequest } from '../../axios'
@@ -12,6 +12,7 @@ import './post.scss'
 
 const Post = ({ _id, user, image, description, createdAt }) => {
 	const [commentOpen, setCommentOpen] = useState(false)
+	const [editOpen, setEditOpen] = useState(false)
 	const { currentUser } = useContext(AuthContext)
 	const { isLoading: likeLoading, error: likeError, data: likes } = useQuery([`likes-${_id}`], () =>
 		makeRequest.get(`/api/v1/like?postID=${_id}`).then(res => {
@@ -25,7 +26,7 @@ const Post = ({ _id, user, image, description, createdAt }) => {
 	)
 
 	const queryClient = useQueryClient()
-	const mutation = useMutation(async (liked) => {
+	const likeMutation = useMutation(async (liked) => {
 		try {
 			if (liked) return await makeRequest.delete(`${import.meta.env.VITE_BASE_URL}/api/v1/like?postID=${_id}`)
 			await makeRequest.post(`${import.meta.env.VITE_BASE_URL}/api/v1/like`, { postID: _id })
@@ -44,8 +45,30 @@ const Post = ({ _id, user, image, description, createdAt }) => {
 		}
 	})
 
+	const postMutation = useMutation(async () => {
+		try {
+			await makeRequest.delete(`${import.meta.env.VITE_BASE_URL}/api/v1/post?_id=${_id}`)
+		} catch (error) {
+			console.log(error.message)
+			if (error.response?.data?.message) {
+				console.log(error.response.data.message)
+			}
+		}
+	}, {
+		onSuccess: () => {
+			queryClient.invalidateQueries(["posts"])
+		},
+		onError: (error) => {
+			console.log(error)
+		}
+	})
+
+	const handleDelete = async (e) => {
+		postMutation.mutate()
+	}
+
 	const handleLike = async (e) => {
-		mutation.mutate(likes?.includes(currentUser._id))
+		likeMutation.mutate(likes?.includes(currentUser._id))
 	}
 
 	return (
@@ -66,7 +89,14 @@ const Post = ({ _id, user, image, description, createdAt }) => {
 							</div>
 						</div>
 					</Link>
-					{user._id === currentUser._id && <MoreHorizOutlined />}
+					<div onClick={handleDelete} className={`delete ${editOpen ? 'active' : ''}`}>
+						Delete post
+						<Delete />
+					</div>
+					{
+						user._id === currentUser._id &&
+						(editOpen ? <Close onClick={() => setEditOpen(!editOpen)} /> : <MoreHorizOutlined onClick={() => setEditOpen(!editOpen)} />)
+					}
 				</div>
 				<div className="content">
 					<p>{description}</p>

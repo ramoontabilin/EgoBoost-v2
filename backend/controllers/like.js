@@ -33,7 +33,7 @@ export const addLike = async (req, res) => {
 			postID
 		})
 			.then((data) => {
-				res.status(201).json({ success: true, data: data })
+				res.status(200).json({ success: true, data: data })
 			})
 			.catch((error) => {
 				res.status(500).json({ success: false, message: error.message })
@@ -52,8 +52,8 @@ export const deleteLike = async (req, res) => {
 			userID,
 			postID
 		})
-		.then((data) => {
-				res.status(202).json({ success: true, data: data })
+			.then((data) => {
+				res.status(200).json({ success: true, data: data })
 			})
 			.catch((error) => {
 				res.status(500).json({ success: false, message: error.message })

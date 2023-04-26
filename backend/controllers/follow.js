@@ -33,7 +33,7 @@ export const addFollow = async (req, res) => {
 			followedUserID
 		})
 			.then((data) => {
-				res.status(201).json({ success: true, data: data })
+				res.status(200).json({ success: true, data: data })
 			})
 			.catch((error) => {
 				res.status(500).json({ success: false, message: error.message })
@@ -53,7 +53,7 @@ export const deleteFollow = async (req, res) => {
 			followedUserID
 		})
 			.then((data) => {
-				res.status(202).json({ success: true, data: data })
+				res.status(200).json({ success: true, data: data })
 			})
 			.catch((error) => {
 				res.status(500).json({ success: false, message: error.message })

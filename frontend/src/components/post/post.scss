@@ -14,12 +14,39 @@
 
 			.user {
 				display: flex;
+				position: relative;
 				justify-content: space-between;
 				align-items: center;
+
+				svg {
+					cursor: pointer;
+				}
 
 				a {
 					text-decoration: none;
 					color: inherit;
+				}
+
+				.delete {
+					display: flex;
+					flex-direction: row;
+					justify-content: center;
+					align-items: center;
+					gap: 10px;
+					background-color: themed('bg');
+					box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.15);
+					border-radius: 20px;
+					position: absolute;
+					padding: 20px;
+					top: 40px;
+					right: -20px;
+					cursor: pointer;
+					clip-path: circle(0%);
+					transition: clip-path 0.25s;
+					
+					&.active {
+						clip-path: circle(100%);
+					}
 				}
 
 				.userInfo {
