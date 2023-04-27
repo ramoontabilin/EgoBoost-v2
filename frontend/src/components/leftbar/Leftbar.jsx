@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { Collections, FastRewind, Group, Groups, LocalActivity, Message, Movie, OndemandVideo, SportsEsports, Storefront } from "@mui/icons-material"
+import { Collections, FastRewind, Group, Groups, LocalActivity, Logout, Message, Movie, OndemandVideo, Settings, SportsEsports, Storefront } from "@mui/icons-material"
 
 import { AuthContext } from '../../context/authContext';
 import noImage from '../../assets/ccclaymoji.svg'
@@ -42,18 +42,18 @@ const Leftbar = () => {
 				<hr />
 				<div className="menu">
 					<span>Your Shortcuts</span>
-					<div className="item">
+					{/* <div className="item">
 						<LocalActivity />
 						<span>Events</span>
-					</div>
-					<div className="item">
+					</div> */}
+					{/* <div className="item">
 						<SportsEsports />
 						<span>Gaming</span>
-					</div>
-					<div className="item">
+					</div> */}
+					{/* <div className="item">
 						<Collections />
 						<span>Gallery</span>
-					</div>
+					</div> */}
 					<div className="item">
 						<Movie />
 						<span>Videos</span>
@@ -61,6 +61,30 @@ const Leftbar = () => {
 					<div className="item">
 						<Message />
 						<span>Messages</span>
+					</div>
+				</div>
+				<hr />
+				<div className="menu">
+					<span>Your Session</span>
+					{/* <div className="item">
+						<LocalActivity />
+						<span>Events</span>
+					</div> */}
+					{/* <div className="item">
+						<SportsEsports />
+						<span>Gaming</span>
+					</div> */}
+					{/* <div className="item">
+						<Collections />
+						<span>Gallery</span>
+					</div> */}
+					<div className="item">
+						<Settings />
+						<span>Settings</span>
+					</div>
+					<div className="item">
+						<Logout />
+						<span>Logout</span>
 					</div>
 				</div>
 				<hr />

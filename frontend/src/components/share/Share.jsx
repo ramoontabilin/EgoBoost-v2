@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Image, Close, Delete } from '@mui/icons-material'
+import { Image, Delete, FlipCameraAndroid } from '@mui/icons-material'
 import { AuthContext } from '../../context/authContext'
 import { makeRequest } from '../../axios'
 import noImage from '../../assets/ccclaymoji.svg'
@@ -16,6 +16,7 @@ const Share = () => {
 
 	const mutation = useMutation(async (newPost) => {
 		try {
+			setLoading(true)
 			await makeRequest.post(`${import.meta.env.VITE_BASE_URL}/api/v1/post`, newPost)
 				.then(() => {
 					setLoading(false)
@@ -37,6 +38,26 @@ const Share = () => {
 			console.log(error)
 		}
 	})
+
+	const handleGenerate = async () => {
+		if (description) {
+			try {
+				setLoading(true)
+				await makeRequest.post(`${import.meta.env.VITE_BASE_URL}/api/v1/generate`, { prompt: description })
+					.then((data) => {
+						console.log(data.data)
+						setLoading(false)
+						setDescription(data.data.data)
+					})
+			} catch (error) {
+				setLoading(false)
+				console.log(error.message)
+				if (error.response?.data?.message) {
+					console.log(error.response.data.message)
+				}
+			}
+		}
+	}
 
 	const handlePhotoChange = (e) => {
 		if (e.target.files[0]) {
@@ -86,17 +107,21 @@ const Share = () => {
 							accept="image/png, image/jpeg"
 							onChange={handlePhotoChange}
 						/>
-						<label htmlFor="image">
-							<div className="item">
-								<Image />
-								<span>{image ? "Replace" : "Add"} Image</span>
-							</div>
-						</label>
-						{image &&
-							<div className='item' onClick={() => setImage(null)}>
-								<span>or Remove</span>
+						<div className="item" onClick={handleGenerate}>
+							<FlipCameraAndroid />
+							<span>Generate</span>
+						</div>
+						{image
+							? <div className='item' onClick={() => setImage(null)}>
 								<Delete />
+								<span>Remove Image</span>
 							</div>
+							: <label htmlFor="image">
+								<div className="item">
+									<Image />
+									<span>Add Image</span>
+								</div>
+							</label>
 						}
 					</div>
 					<div className="right">
@@ -110,7 +135,7 @@ const Share = () => {
 					</div>
 				</div>
 			</div>
-		</div>
+		</div >
 	)
 }
 
