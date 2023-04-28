@@ -1,13 +1,28 @@
 import { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Collections, FastRewind, Group, Groups, LocalActivity, Logout, Message, Movie, OndemandVideo, Settings, SportsEsports, Storefront } from "@mui/icons-material"
-
-import { AuthContext } from '../../context/authContext';
+import { AuthContext } from '../../context/authContext'
+import { makeRequest } from '../../axios'
 import noImage from '../../assets/ccclaymoji.svg'
 import './leftbar.scss'
 
 const Leftbar = () => {
 	const { currentUser } = useContext(AuthContext)
+	const navigate = useNavigate()
+
+	const handleLogout = async (e) => {
+		e.preventDefault()
+		try {
+			await makeRequest.post('/api/v1/auth/logout')
+				.then(res => {
+					localStorage.removeItem('user')
+					navigate("/login")
+				})
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
 	return (
 		<div className='leftbar'>
 			<div className="container">
@@ -82,7 +97,7 @@ const Leftbar = () => {
 						<Settings />
 						<span>Settings</span>
 					</div>
-					<div className="item">
+					<div className="item" onClick={handleLogout}>
 						<Logout />
 						<span>Logout</span>
 					</div>

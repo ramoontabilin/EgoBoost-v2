@@ -13,7 +13,7 @@ cloudinary.config({
 })
 
 export const register = async (req, res) => {
-	const { email, password, name, cover, city, website } = req.body
+	const { email, password, name, image, cover, city, website } = req.body
 	// try {
 	const salt = bcrypt.genSaltSync(10)
 	const hash = bcrypt.hashSync(password, salt)
@@ -84,10 +84,13 @@ export const login = async (req, res) => {
 }
 
 export const logout = async (req, res) => {
-	res.clearCookie("accessToken", {
-		secure: true,
-		sameSite: false
-	}).status(200).json({ success: true, message: "User has been logged out" })
+	res
+		.clearCookie("accessToken", {
+			secure: true,
+			sameSite: false
+		})
+		.status(200)
+		.json({ success: true, message: "User has been logged out" })
 }
 
 export const update = async (req, res) => {
@@ -153,3 +156,5 @@ export const update = async (req, res) => {
 		updateUser((image ? await replacePhoto(image, imageOld) : imageOld), (cover ? await replacePhoto(cover, coverOld) : coverOld))
 	})
 }
+
+// Delete the user

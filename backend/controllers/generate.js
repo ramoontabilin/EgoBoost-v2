@@ -11,7 +11,6 @@ const openai = new OpenAIApi(configuration)
 
 export const postPrompt = async (req, res) => {
 	const { prompt } = req.body
-	console.log(prompt)
 	openai.createChatCompletion({
 		model: "gpt-3.5-turbo",
 		messages: [
@@ -36,7 +35,6 @@ export const postPrompt = async (req, res) => {
 
 export const postComment = async (req, res) => {
 	const { description } = req.body
-	console.log(description)
 	openai.createChatCompletion({
 		model: "gpt-3.5-turbo",
 		messages: [

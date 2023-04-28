@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import Leftbar from './components/leftbar/leftbar'
+import Leftbar from './components/leftbar/Leftbar'
 import Navbar from './components/navbar/Navbar'
 import Rightbar from './components/rightbar/RightBar'
 import Profile from './pages/profile/Profile'
