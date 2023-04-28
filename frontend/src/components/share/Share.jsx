@@ -8,6 +8,7 @@ import './share.scss'
 
 const Share = () => {
 	const [loading, setLoading] = useState(false)
+	const [generating, setGenerating] = useState(false)
 	const [description, setDescription] = useState('')
 	const [image, setImage] = useState(null)
 	const { currentUser } = useContext(AuthContext)
@@ -42,15 +43,15 @@ const Share = () => {
 	const handleGenerate = async () => {
 		if (description) {
 			try {
-				setLoading(true)
+				setGenerating(true)
 				await makeRequest.post(`${import.meta.env.VITE_BASE_URL}/api/v1/generate`, { prompt: description })
 					.then((data) => {
 						console.log(data.data)
-						setLoading(false)
+						setGenerating(false)
 						setDescription(data.data.data)
 					})
 			} catch (error) {
-				setLoading(false)
+				setGenerating(false)
 				console.log(error.message)
 				if (error.response?.data?.message) {
 					console.log(error.response.data.message)
@@ -107,10 +108,10 @@ const Share = () => {
 							accept="image/png, image/jpeg"
 							onChange={handlePhotoChange}
 						/>
-						<div className="item" onClick={handleGenerate}>
+						<button className="item" disabled={generating} onClick={handleGenerate}>
 							<FlipCameraAndroid />
-							<span>Generate</span>
-						</div>
+							<span>{generating ? "Generating.." : "Generate"}</span>
+						</button>
 						{image
 							? <div className='item' onClick={() => setImage(null)}>
 								<Delete />
@@ -130,7 +131,7 @@ const Share = () => {
 							disabled={loading}
 							onClick={handleSubmit}
 						>
-							Share
+							{loading ? "Sharing.." : "Share"}
 						</button>
 					</div>
 				</div>

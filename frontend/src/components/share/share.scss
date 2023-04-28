@@ -70,12 +70,15 @@
 					.item {
 						display: flex;
 						align-items: center;
+						font-size: 12px;
+						color: gray;
+						background-color: transparent;
+						border: none;
 						gap: 10px;
 						cursor: pointer;
 
-						span {
-							font-size: 12px;
-							color: gray;
+						svg {
+							color: themed("textColor");
 						}
 					}
 				}
