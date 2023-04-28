@@ -44,9 +44,8 @@ const Share = () => {
 		if (description) {
 			try {
 				setGenerating(true)
-				await makeRequest.post(`${import.meta.env.VITE_BASE_URL}/api/v1/generate`, { prompt: description })
+				await makeRequest.post(`${import.meta.env.VITE_BASE_URL}/api/v1/generate/post`, { prompt: description })
 					.then((data) => {
-						console.log(data.data)
 						setGenerating(false)
 						setDescription(data.data.data)
 					})

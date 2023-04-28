@@ -7,10 +7,11 @@ import { makeRequest } from '../../axios'
 import noImage from '../../assets/ccclaymoji.svg'
 import './comments.scss'
 
-const Comments = ({ postID }) => {
+const Comments = ({ postDescription, postID }) => {
+	const [loading, setLoading] = useState(false)
 	const [description, setDescription] = useState('')
 	const { currentUser } = useContext(AuthContext)
-	const { isLoading, error, data: comments } = useQuery([`comments-${postID}`], () =>
+	const { isLoading: commentLoading, error, data: comments } = useQuery([`comments-${postID}`], () =>
 		makeRequest.get(`/api/v1/comment?postID=${postID}`).then(res => {
 			return res.data.data
 		})
@@ -31,6 +32,7 @@ const Comments = ({ postID }) => {
 			queryClient.invalidateQueries([`comments-${postID}`])
 				.then(() => {
 					setDescription("")
+					setLoading(false)
 				})
 		},
 		onError: (error) => {
@@ -38,12 +40,29 @@ const Comments = ({ postID }) => {
 		}
 	})
 
+	const handleGenerate = async () => {
+		try {
+			await makeRequest.post(`${import.meta.env.VITE_BASE_URL}/api/v1/generate/comment`, { description: postDescription })
+				.then((data) => {
+					setLoading(false)
+					mutation.mutate({ description: data.data.data, postID })
+				})
+		} catch (error) {
+			setLoading(false)
+			console.log(error.message)
+			if (error.response?.data?.message) {
+				console.log(error.response.data.message)
+			}
+		}
+	}
+
 	const handleSubmit = (e) => {
 		e.preventDefault()
+		setLoading(true)
 		if (description) {
 			mutation.mutate({ description, postID })
 		} else {
-			console.log("Post is empty")
+			handleGenerate() 
 		}
 	}
 
@@ -59,12 +78,13 @@ const Comments = ({ postID }) => {
 				/>
 				<button
 					type='submit'
+					disabled={loading}
 					onClick={handleSubmit}
 				>
-					Send
+					{loading ? "Sending.." : "Send"}
 				</button>
 			</div>
-			{isLoading ? "Loading.. " :
+			{commentLoading ? "Loading.. " :
 				comments ? comments.map((comment) => (
 					<div className="comment" key={comment._id}>
 						<Link to={`/profile/${comment.user._id}`}>

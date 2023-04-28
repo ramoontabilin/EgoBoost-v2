@@ -21,23 +21,37 @@ export const postPrompt = async (req, res) => {
 		max_tokens: 100,
 	})
 		.then((data) => {
-			// console.log(data)
-			// console.log(data.data.choices[0].text)
-			// const text = data.data.choices[0].text
-			// const text = data.data.choices[0].message
-			console.log(data.data.choices[0].message.content)
-			// console.log(data.choices[0].message)
 			const text = data.data.choices[0].message.content
 			if (text) {
 				res.status(200).json({ success: true, data: text })
 			} else {
 				res.status(404).json({ success: false, data: "No choices" })
 			}
-			// if (data) {
-			// res.status(200).json({ success: true, data: data[0] })
-			// } else {
-			// 	res.status(404).json({ success: false, data: "User not found" })
-			// }
+		})
+		.catch((error) => {
+			console.log(error)
+			res.status(500).json({ success: false, message: error.message })
+		})
+}
+
+export const postComment = async (req, res) => {
+	const { description } = req.body
+	console.log(description)
+	openai.createChatCompletion({
+		model: "gpt-3.5-turbo",
+		messages: [
+			{ "role": "system", "content": "You reply extremely positively to the prompt." },
+			{ "role": "user", "content": description },
+		],
+		max_tokens: 100,
+	})
+		.then((data) => {
+			const text = data.data.choices[0].message.content
+			if (text) {
+				res.status(200).json({ success: true, data: text })
+			} else {
+				res.status(404).json({ success: false, data: "No choices" })
+			}
 		})
 		.catch((error) => {
 			console.log(error)
