@@ -14,7 +14,7 @@ export const postPrompt = async (req, res) => {
 	openai.createChatCompletion({
 		model: "gpt-3.5-turbo",
 		messages: [
-			{ "role": "system", "content": "You take prompts and make them into up-beat social media posts as the user." },
+			{ "role": "system", "content": "You take prompts and make them into up-beat social media posts as the user in 125 words or less." },
 			{ "role": "user", "content": prompt },
 		],
 		max_tokens: 100,
@@ -38,7 +38,7 @@ export const postComment = async (req, res) => {
 	openai.createChatCompletion({
 		model: "gpt-3.5-turbo",
 		messages: [
-			{ "role": "system", "content": "You reply extremely positively to the prompt." },
+			{ "role": "system", "content": "You reply extremely positively to the prompt in 100 words or less." },
 			{ "role": "user", "content": description },
 		],
 		max_tokens: 100,
