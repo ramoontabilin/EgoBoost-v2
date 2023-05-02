@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../context/authContext'
 
@@ -11,7 +11,7 @@ const Login = () => {
 		email: "",
 		password: "",
 	})
-	const { login } = useContext(AuthContext)
+	const { login, currentUser } = useContext(AuthContext)
 	const navigate = useNavigate()
 
 	const handleLogin = async (e) => {
@@ -20,48 +20,25 @@ const Login = () => {
 			setLoading(true)
 			try {
 				await login(form)
-				setLoading(false)
-				navigate("/")
+					.then(() => {
+						setLoading(false)
+					})
 			} catch (error) {
 				setLoading(false)
 				setError(error.message)
+				console.log(error)
 				if (error.response.data.message) {
 					setError(error.response.data.message)
 				}
 			}
-			// console.log("it's passing")
-			// setLoading(true)
-			// try {
-			// 	const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/login`, {
-			// 		method: 'POST',
-			// 		headers: {
-			// 			'Content-Type': 'application/json',
-			// 		},
-			// 		body: JSON.stringify(form)
-			// 	})
-			// 	await response.json()
-			// 		.then((data) => {
-			// 			if (data.success) {
-			// 				console.log('Success! Navigate home.')
-			// 				console.log(data.data)
-			// 				login(data.data)
-			// 				// navigate('/')
-			// 			} else { 
-			// 				console.log(data.message)
-			// 			}
-			// 		})
-			// 		.catch((error) => {
-			// 			console.log(error)
-			// 		})
-			// 	setLoading(false)
-			// } catch (error) {
-			// 	console.log(error)
-			// 	setLoading(false)
-			// }
 		} else {
 			setError(`Fill out your ${form.email ? "password" : "email"}`)
 		}
 	}
+
+	useEffect(() => {
+		if (currentUser) navigate("/")
+	}, [currentUser])
 
 	const handleChange = (e) => {
 		setForm({ ...form, [e.target.name]: e.target.value })
@@ -72,7 +49,7 @@ const Login = () => {
 			<div className="card">
 				<div className="left">
 					<h1>Give me attention.</h1>
-					<p>An inflated ego refers to an exaggerated sense of self-importance, often accompanied by arrogance and a lack of empathy towards others. It can lead to behavior that is self-centered, dismissive of others' opinions, and a disregard for rules or societal norms.</p>
+					<p>Someone needs absurd amounts of attention because they have an extreme need for validation and affection. They may also be insecure and seeking attention in order to mask their true feelings. People with this need often find themselves overwhelmed and in need of a constant supply of attention.</p>
 					<span></span>
 					<p>Inflate your ego</p>
 					<Link to='/register'>

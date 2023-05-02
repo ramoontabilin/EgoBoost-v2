@@ -13,7 +13,7 @@ const Register = () => {
 		password: '',
 		name: '',
 	})
-	const { login } = useContext(AuthContext)
+	const { login, currentUser } = useContext(AuthContext)
 	const navigate = useNavigate()
 
 	const handleSubmit = async (e) => {
@@ -22,10 +22,10 @@ const Register = () => {
 			setLoading(true)
 			try {
 				const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/register`, form)
-				console.log(response)
 				await login(form)
-				setLoading(false)
-				navigate("/")
+					.then(() => {
+						setLoading(false)
+					})
 			} catch (error) {
 				setLoading(false)
 				setError(error.message)
@@ -37,6 +37,10 @@ const Register = () => {
 			setError("Missing fields")
 		}
 	}
+
+	useEffect(() => {
+		if (currentUser) navigate("/")
+	}, [currentUser])
 
 	const handleChange = (e) => {
 		setForm({ ...form, [e.target.name]: e.target.value })

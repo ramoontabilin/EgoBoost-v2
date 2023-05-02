@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Collections, FastRewind, Group, Groups, LocalActivity, Logout, Message, Movie, OndemandVideo, Settings, SportsEsports, Storefront } from "@mui/icons-material"
 import { AuthContext } from '../../context/authContext'
@@ -7,7 +7,7 @@ import noImage from '../../assets/ccclaymoji.svg'
 import './leftbar.scss'
 
 const Leftbar = () => {
-	const { currentUser } = useContext(AuthContext)
+	const { currentUser, setCurrentUser } = useContext(AuthContext)
 	const navigate = useNavigate()
 
 	const handleLogout = async (e) => {
@@ -16,6 +16,7 @@ const Leftbar = () => {
 			await makeRequest.post('/api/v1/auth/logout')
 				.then(res => {
 					localStorage.removeItem('user')
+					setCurrentUser(false)
 					navigate("/login")
 				})
 		} catch (error) {

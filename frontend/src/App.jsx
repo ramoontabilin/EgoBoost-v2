@@ -34,8 +34,7 @@ const App = () => {
 	)
 
 	const ProtectedRoute = ({ children }) => {
-		if (!currentUser) return <Navigate to='/login' />
-		return children
+		return currentUser ? children : <Navigate to='/login' />
 	}
 
 	const router = createBrowserRouter([
