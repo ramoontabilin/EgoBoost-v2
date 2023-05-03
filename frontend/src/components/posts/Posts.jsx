@@ -5,7 +5,7 @@ import Post from '../post/Post'
 import './posts.scss'
 
 const Posts = ({ userID }) => {
-	const { isLoading, error, data: posts } = useQuery(["posts"], () =>
+	const { isLoading, error, data: posts } = useQuery(["posts", userID], () =>
 		makeRequest.get(`/api/v1/post${userID ? `?userID=${userID}` : ''}`).then(res => {
 			return res.data.data
 		})
