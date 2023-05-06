@@ -21,8 +21,30 @@ export const getPost = async (req, res) => {
 		if (error) return res.status(403).json({ success: false, message: "Token is not valid." })
 		const { userID } = req.query
 		const userArray = [{ $match: { userID: new mongoose.Types.ObjectId(userID) } }]
+		const followArray = [
+			{
+				$lookup:
+				{
+					from: "follows",
+					localField: "userID",
+					foreignField: "followerUserID",
+					as: "result"
+				}
+			},
+			{
+				$match: {
+					$or: [
+						{ "result.followedUserID": new mongoose.Types.ObjectId(userInfo.id) },
+						{ "userID": new mongoose.Types.ObjectId(userInfo.id) },
+					]
+				}
+			},
+			{
+				$unset: "result"
+			},
+		]
 		Post.aggregate([
-			...(userID ? userArray : []),
+			...(userID ? userArray : followArray),
 			{
 				$lookup:
 				{
