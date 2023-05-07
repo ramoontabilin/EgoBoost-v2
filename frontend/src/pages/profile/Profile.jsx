@@ -21,18 +21,12 @@ const Profile = () => {
 	const { currentUser, setCurrentUser } = useContext(AuthContext)
 	const queryClient = useQueryClient()
 	const userID = useLocation().pathname.split('/')[2]
-	console.log(`Obtained ID: ${userID}`)
-	const { isLoading, error, data: user } = useQuery(["user"], () =>
+	const { isLoading, error, data: user } = useQuery(["user", userID], () =>
 		makeRequest.get(`/api/v1/user?_id=${userID}`).then(res => {
-			console.log(res.data.data._id)
-			console.log(`User Loading: ${userID}`)
 			return res.data.data
 		})
-		, {
-			staleTime: 0,
-			cacheTime: 0,
-		})
-	const { isLoading: commentLoading, error: commentError, data: followed } = useQuery(["follow"], () =>
+	)
+	const { isLoading: commentLoading, error: commentError, data: followed } = useQuery(["follow", userID], () =>
 		makeRequest.get(`/api/v1/follow?followerUserID=${userID}`).then(res => {
 			return res.data.data
 		})
@@ -51,6 +45,7 @@ const Profile = () => {
 	}, {
 		onSuccess: () => {
 			queryClient.invalidateQueries(["follow"])
+			queryClient.invalidateQueries(["posts"])
 		},
 		onError: (error) => {
 			console.log(error)
@@ -59,7 +54,9 @@ const Profile = () => {
 
 	const profileMutation = useMutation(async (updatedUser) => {
 		try {
+			console.log(`before: ${updatedUser.name}`)
 			await makeRequest.put(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/update`, updatedUser)
+			console.log(`REquest: ${user.name}`)
 		} catch (error) {
 			console.log(error.message)
 			if (error.response?.data?.message) {
@@ -70,7 +67,8 @@ const Profile = () => {
 		onSuccess: () => {
 			queryClient.invalidateQueries(["user"])
 				.then(() => {
-					// setCurrentUser(user)
+					localStorage.setItem("user", JSON.stringify(user))
+					setCurrentUser(user)
 					setEdit(!edit)
 				})
 		},
@@ -100,7 +98,6 @@ const Profile = () => {
 		if (e.target.files[0]) {
 			const reader = new FileReader()
 			reader.addEventListener("load", () => {
-				console.log(e.target)
 				e.target.id === "profile" ? setImage(reader.result) : setCover(reader.result)
 			})
 			reader.readAsDataURL(e.target.files[0])
@@ -136,7 +133,6 @@ const Profile = () => {
 	}
 
 	useEffect(() => {
-		console.log(`UserID Changed: ${userID}`)
 		queryClient.invalidateQueries(["user"])
 			.then(() => {
 				setEdit(false)

@@ -47,7 +47,7 @@ const Suggestions = () => {
 
 	return (
 		<>
-			{users &&
+			{users.length !== 0 &&
 				<div className="item">
 					<span>Suggestions For You</span>
 					{users.map((user) => (
