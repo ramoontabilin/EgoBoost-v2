@@ -161,7 +161,7 @@ const Profile = () => {
 						</>
 					}
 				</div>
-				<div className="profile">
+				<div className="image">
 					<img src={(edit && image) ? image : user?.image ? user?.image : noImage} alt={user?.name} />
 					{
 						edit && <>

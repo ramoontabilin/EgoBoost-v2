@@ -135,7 +135,7 @@ const Share = () => {
 					</div>
 				</div>
 			</div>
-		</div >
+		</div>
 	)
 }
 

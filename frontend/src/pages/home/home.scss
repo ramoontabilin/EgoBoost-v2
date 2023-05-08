@@ -4,6 +4,7 @@
 	@include themify($themes) {
 		background-color: themed('bgSoft');
 		padding: 20px 50px;
+		min-height: calc(100vh - 109px);
 
 		scrollbar-width: none;
 		
