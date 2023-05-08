@@ -67,6 +67,9 @@ export const getFollowSuggestList = async (req, res) => {
 								}
 							}
 						}
+					},
+					{
+						$sample: { size: 3 }
 					}],
 					as: "result"
 				}
