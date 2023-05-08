@@ -33,32 +33,37 @@ export const getFollowSuggestList = async (req, res) => {
 		if (error) return res.status(403).json({ success: false, message: "Token is not valid." })
 		await Follow.aggregate([
 			{
-				$match: { "followedUserID": new mongoose.Types.ObjectId(userInfo.id) },
-			},
-			{
-				$group: {
-					_id: null,
-					followList: {
-						$addToSet: "$followerUserID"
+				$facet: {
+					result: [{
+						$match: { "followedUserID": new mongoose.Types.ObjectId(userInfo.id) },
 					},
-					followUser: {
-						$addToSet: "$followedUserID",
+					{
+						$group: {
+							_id: null,
+							followList: {
+								$push: "$followerUserID"
+							},
+						}
 					},
+					]
 				}
 			},
 			{
-				$set: { "list": { $concatArrays: ["$followList", "$followUser"] } }
+				$set: { result: { $first: "$result" } }
+			},
+			{
+				$set: { result: { $concatArrays: [{ $ifNull: ["$result.followList", []] }, [new mongoose.Types.ObjectId(userInfo.id)]] } }
 			},
 			{
 				$lookup:
 				{
 					from: "users",
-					let: { "list": "$list" },
+					let: { "result": "$result" },
 					pipeline: [{
 						$match: {
 							$expr: {
 								$not: {
-									$in: ["$_id", "$$list"]
+									$in: ["$_id", "$$result"]
 								}
 							}
 						}
@@ -67,7 +72,7 @@ export const getFollowSuggestList = async (req, res) => {
 				}
 			},
 			{
-				$unset: ["followList", "followUser", "list", "result.password"]
+				$unset: ["result.password"]
 			},
 		])
 			.then((data) => {
