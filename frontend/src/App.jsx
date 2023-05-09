@@ -6,6 +6,7 @@ import Navbar from './components/navbar/Navbar'
 import Rightbar from './components/rightbar/RightBar'
 import Profile from './pages/profile/Profile'
 import Home from './pages/home/Home'
+import Settings from './pages/settings/Settings'
 import Login from './pages/login/Login'
 import Register from './pages/register/Register'
 import { DarkModeContext } from './context/darkModeContext'
@@ -53,6 +54,14 @@ const App = () => {
 				{
 					path: '/profile/:id',
 					element: <Profile />
+				},
+				{
+					path: '/followings',
+					element: <Settings />
+				},
+				{
+					path: '/settings',
+					element: <Settings />
 				},
 			]
 		},

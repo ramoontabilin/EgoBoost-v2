@@ -34,13 +34,13 @@ const Leftbar = () => {
 							<span>{currentUser.name}</span>
 						</div>
 					</Link>
-					<div className="item">
+					{/* <div className="item">
 						<Group />
 						<span>Friends</span>
-					</div>
+					</div> */}
 					<div className="item">
 						<Groups />
-						<span>Groups</span>
+						<span>Followings</span>
 					</div>
 					<div className="item">
 						<Storefront />
@@ -94,10 +94,12 @@ const Leftbar = () => {
 						<Collections />
 						<span>Gallery</span>
 					</div> */}
-					<div className="item">
-						<Settings />
-						<span>Settings</span>
-					</div>
+					<Link to={`/settings`}>
+						<div className="item">
+							<Settings />
+							<span>Settings</span>
+						</div>
+					</Link>
 					<div className="item" onClick={handleLogout}>
 						<Logout />
 						<span>Logout</span>

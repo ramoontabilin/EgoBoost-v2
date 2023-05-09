@@ -9,7 +9,7 @@ import './navbar.scss'
 
 const Navbar = () => {
 	const [menuOpen, setMenuOpen] = useState(false)
-	const { toggle, darkMode } = useContext(DarkModeContext)
+
 	const { currentUser } = useContext(AuthContext)
 
 	return (
@@ -25,7 +25,6 @@ const Navbar = () => {
 				</div>
 			</div>
 			<div className="right">
-				{darkMode ? <WbSunnyOutlined onClick={toggle} /> : <DarkModeOutlined onClick={toggle} />}
 				<NotificationsOutlined />
 				<MessageOutlined />
 				<Link to={`/profile/${currentUser._id}`}>
