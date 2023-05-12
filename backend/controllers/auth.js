@@ -98,7 +98,7 @@ export const update = async (req, res) => {
 	if (!token) return res.status(401).json({ success: false, message: "Not logged in." })
 	jwt.verify(token, "secretkey", async (error, userInfo) => {
 		if (error) return res.status(403).json({ success: false, message: "Token is not valid." })
-		const { name, image, cover, city, website, imageOld, coverOld } = req.body
+		const { email, password, passwordOld, name, image, cover, city, website, imageOld, coverOld } = req.body
 		const _id = userInfo.id
 
 		const uploadPhoto = async (image) => {
@@ -132,7 +132,7 @@ export const update = async (req, res) => {
 			}
 		}
 
-		const updateUser = async (image, cover) => {
+		const updateUserProfile = async (image, cover) => {
 			await User.findOneAndUpdate(
 				{
 					_id
@@ -153,7 +153,71 @@ export const update = async (req, res) => {
 				})
 		}
 
-		updateUser((image ? await replacePhoto(image, imageOld) : imageOld), (cover ? await replacePhoto(cover, coverOld) : coverOld))
+		const updateUserEmail = async () => {
+			await User.findOne({ email })
+				.then((data) => {
+					if (data) {
+						res.status(409).json({ success: false, message: "Email is taken" })
+					} else {
+						User.findOneAndUpdate({ _id }, { email, })
+							.then((data) => {
+								res.status(200).json({ success: true, data: data })
+							})
+							.catch((error) => {
+								res.status(500).json({ success: false, message: error.message })
+							})
+					}
+				})
+				.catch((error) => {
+					res.status(500).json({ success: false, message: error.message })
+				})
+		}
+
+		const updateUserPassword = async () => {
+			await User.findOne({ _id })
+				.then((data) => {
+					if (data) {
+						// User found! Now compare the passwords
+						const checkPass = bcrypt.compareSync(passwordOld, data.password)
+						if (checkPass) {
+							const salt = bcrypt.genSaltSync(10)
+							const hash = bcrypt.hashSync(password, salt)
+
+							User.findOneAndUpdate({ _id }, { password: hash, })
+								.then((data) => {
+									// Deconstruct the data to get the real object and might as get the id here
+									const { _id, ...doc } = data
+									const token = jwt.sign({ id: _id }, "secretkey")
+									// Deconstruct again to return object without password
+									const { password, ...others } = doc._doc
+									res
+										.cookie("accessToken", token, {
+											httpOnly: true,
+											sameSite: false
+										})
+										.status(200)
+										.json({ success: true, data: others })
+								})
+								.catch((error) => {
+									res.status(500).json({ success: false, message: error.message })
+								})
+						} else {
+							res.status(400).json({ success: false, message: "Wrong password" })
+						}
+					} else {
+						// User not found
+						res.status(404).json({ success: false, message: "User doesn't exist" })
+					}
+				})
+				.catch((error) => {
+					// Something went wrong
+					res.status(500).json({ success: false, message: error.message })
+				})
+		}
+
+		if (email) updateUserEmail()
+		else if (password && passwordOld) updateUserPassword()
+		else updateUserProfile((image ? await replacePhoto(image, imageOld) : imageOld), (cover ? await replacePhoto(cover, coverOld) : coverOld))
 	})
 }
 
