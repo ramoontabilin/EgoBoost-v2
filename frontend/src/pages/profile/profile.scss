@@ -111,6 +111,14 @@
 
 		.posts {
 			padding: 20px 50px;
+
+			@include tablet {
+				padding: 20px;
+			}
+
+			@include mobile {
+				padding: 10px;
+			}
 		}
 
 
