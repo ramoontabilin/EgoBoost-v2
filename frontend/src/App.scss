@@ -1,0 +1,10 @@
+@import './style.scss';
+
+.main {
+	display: flex;
+	position: relative;
+
+	.outlet {
+		flex: 5;
+	}
+}

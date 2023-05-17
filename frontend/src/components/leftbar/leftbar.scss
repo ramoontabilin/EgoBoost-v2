@@ -11,23 +11,23 @@
 		background-color: themed('bg');
 		color: themed(textColor);
 
-		scrollbar-width: none;
-
-		&::-webkit-scrollbar {
-			display: none;
-		}
-
 		@include tablet {
 			width: 300px;
 			min-width: 200px;
 		}
 
 		@include mobile {
-			display: none;
+			position: fixed;
+			z-index: 1;
+			transform: translateX(-300px);
+			transition: transform 0.2s ease;
+
+			&.true {
+				transform: translateX(0px);
+			}
 		}
 
 		.container {
-			// padding: 20px;
 
 			hr {
 				margin: 20px 0;
@@ -39,7 +39,6 @@
 			.menu {
 				display: flex;
 				flex-direction: column;
-				// gap: 20px;
 
 				a {
 					text-decoration: none;

@@ -6,7 +6,7 @@ import { makeRequest } from '../../axios'
 import noImage from '../../assets/ccclaymoji.svg'
 import './leftbar.scss'
 
-const Leftbar = () => {
+const Leftbar = ({ active }) => {
 	const { currentUser, setCurrentUser } = useContext(AuthContext)
 	const navigate = useNavigate()
 
@@ -25,7 +25,7 @@ const Leftbar = () => {
 	}
 
 	return (
-		<div className='leftbar'>
+		<div className={`leftbar ${active}`} >
 			<div className="container">
 				<div className="menu">
 					<Link to={`/profile/${currentUser._id}`}>

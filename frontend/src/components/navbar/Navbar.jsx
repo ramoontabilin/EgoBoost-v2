@@ -1,21 +1,18 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { HomeOutlined, DarkModeOutlined, GridViewOutlined, WbSunnyOutlined, NotificationsOutlined, MessageOutlined, PersonOutlined, SearchOutlined, Menu } from '@mui/icons-material'
+import { NotificationsOutlined, MessageOutlined, SearchOutlined, Menu } from '@mui/icons-material'
 
-import { DarkModeContext } from '../../context/darkModeContext'
 import { AuthContext } from '../../context/authContext'
 import noImage from '../../assets/ccclaymoji.svg'
 import './navbar.scss'
 
-const Navbar = () => {
-	const [menuOpen, setMenuOpen] = useState(false)
-
+const Navbar = ({ onClick }) => {
 	const { currentUser } = useContext(AuthContext)
 
 	return (
 		<div className='navbar'>
 			<div className="left">
-				<Menu className='menu' onClick={() => setMenuOpen(!menuOpen)} />
+				<Menu className='menu' onClick={onClick} />
 				<Link to='/' style={{ textDecoration: 'none' }}>
 					<span>EgoBoost</span>
 				</Link>

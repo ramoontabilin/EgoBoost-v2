@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Leftbar from './components/leftbar/Leftbar'
@@ -12,20 +12,26 @@ import Register from './pages/register/Register'
 import { DarkModeContext } from './context/darkModeContext'
 import { AuthContext } from './context/authContext'
 import './style.scss'
+import './App.scss'
 
 
 const App = () => {
+	const [showSidebar, setShowSidebar] = useState(false)
 	const { currentUser } = useContext(AuthContext)
 	const { darkMode } = useContext(DarkModeContext)
 	const queryClient = new QueryClient()
 
+	const toggleSidebar = () => {
+		setShowSidebar(!showSidebar)
+	}
+
 	const Layout = () => (
 		<QueryClientProvider client={queryClient}>
 			<div className={`theme-${darkMode ? 'dark' : 'light'}`}>
-				<Navbar />
-				<div style={{ display: 'flex' }}>
-					<Leftbar />
-					<div style={{ flex: 5 }}>
+				<Navbar onClick={toggleSidebar} />
+				<div className='main'>
+					<Leftbar active={showSidebar} />
+					<div className='outlet'>
 						<Outlet />
 					</div>
 					<Rightbar />
