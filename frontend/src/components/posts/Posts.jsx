@@ -4,6 +4,7 @@ import { Error, ImageNotSupported, Repeat } from '@mui/icons-material'
 import { makeRequest } from '../../axios'
 import Post from '../post/Post'
 import './posts.scss'
+import Suggestions from '../suggestions/Suggestions'
 
 const Posts = ({ userID }) => {
 	const { isLoading, error, data: posts } = useQuery(["posts", userID], () =>
@@ -27,13 +28,28 @@ const Posts = ({ userID }) => {
 							<p>{error.message}</p>}
 						<Error />
 					</div> :
-					posts ? posts.map((post) => (
-						<Post key={post._id} {...post} />
-					)) :
-						<div className="message">
-							<span>No posts :c</span>
-							<ImageNotSupported />
-						</div>}
+					posts.length ?
+						<>
+							{posts.map((post) => (
+								<Post key={post._id} {...post} />
+							))}
+							<div className='end'>
+								<div />
+								<span>This is the end</span>
+								<div />
+							</div>
+							<Suggestions />
+						</>
+						:
+						<>
+							<div className="message">
+								<span>No posts :c</span>
+								<ImageNotSupported />
+							</div>
+							<hr />
+							<Suggestions />
+						</>
+			}
 		</div>
 	)
 }

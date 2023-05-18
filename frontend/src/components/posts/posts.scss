@@ -14,6 +14,37 @@
 			gap: 10px;
 		}
 
+		hr {
+			margin: 20px 0;
+			border: none;
+			height: 0.5px;
+			background-color: themed('border');
+		}
+
+		.end {
+			margin: 10px;
+			display: flex;
+			flex-direction: row;
+			// justify-content: end;
+			align-items: center;
+			color: themed('border');
+			gap: 20px;
+
+			div {
+				flex: 1;
+				height: 1px;
+				background-color: themed('border');
+			}
+		}
+
+		.suggestions {
+			display: none;
+
+			@include tablet {
+				display: block;
+			}
+		}
+
 		.message {
 			padding: 30px 0;
 			display: flex;

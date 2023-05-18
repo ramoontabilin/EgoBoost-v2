@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { makeRequest } from '../../axios'
 import noImage from '../../assets/ccclaymoji.svg'
+import './suggestions.scss'
 
 const Suggestions = () => {
 	const [users, setUsers] = useState([])
@@ -48,7 +49,7 @@ const Suggestions = () => {
 	return (
 		<>
 			{users.length !== 0 &&
-				<div className="item">
+				<div className="suggestions">
 					<span>Suggestions For You</span>
 					{users.map((user) => (
 						<div className="user" key={user._id}>
