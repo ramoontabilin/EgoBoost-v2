@@ -63,14 +63,11 @@ export const login = async (req, res) => {
 					// Deconstruct again to return object without password
 					const { password, ...others } = doc._doc
 					res
-						.cookie("accessToken", token, {
-							httpOnly: true,
-							sameSite: false
-						})
+						.cookie("accessToken", token,)
 						.status(200)
 						.json({ success: true, data: others })
 				} else {
-					res.status(400).json({ success: false, message: "Wrong password" })
+					res.status(400).json({ success: false, message: "Wrong username or password" })
 				}
 			} else {
 				// User not found
@@ -85,10 +82,7 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
 	res
-		.clearCookie("accessToken", {
-			secure: true,
-			sameSite: false
-		})
+		.clearCookie("accessToken")
 		.status(200)
 		.json({ success: true, message: "User has been logged out" })
 }
