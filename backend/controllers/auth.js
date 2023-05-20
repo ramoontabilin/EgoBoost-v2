@@ -63,7 +63,10 @@ export const login = async (req, res) => {
 					// Deconstruct again to return object without password
 					const { password, ...others } = doc._doc
 					res
-						.cookie("accessToken", token,)
+						.cookie("accessToken", token, {
+							secure: true,
+							sameSite: 'none',
+						})
 						.status(200)
 						.json({ success: true, data: others })
 				} else {
@@ -186,8 +189,8 @@ export const update = async (req, res) => {
 									const { password, ...others } = doc._doc
 									res
 										.cookie("accessToken", token, {
-											httpOnly: true,
-											sameSite: false
+											secure: true,
+											sameSite: 'none',
 										})
 										.status(200)
 										.json({ success: true, data: others })
