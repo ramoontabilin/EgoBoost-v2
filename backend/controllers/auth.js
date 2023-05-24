@@ -64,8 +64,9 @@ export const login = async (req, res) => {
 					const { password, ...others } = doc._doc
 					res
 						.cookie("accessToken", token, {
-							secure: true,
+							httpOnly: true,
 							sameSite: 'none',
+							secure: true,
 						})
 						.status(200)
 						.json({ success: true, data: others })
