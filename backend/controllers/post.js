@@ -15,9 +15,10 @@ cloudinary.config({
 })
 
 export const getPost = async (req, res) => {
-	const token = req.cookies.accessToken
+	const token = await req.headers.authorization.split(" ")[1]
+	console.log("Here you go: ", token)
 	if (!token) return res.status(401).json({ success: false, message: "Not logged in." })
-	jwt.verify(token, "secretkey", async (error, userInfo) => {
+	jwt.verify(token, process.env.JWT_SECRET, async (error, userInfo) => {
 		if (error) return res.status(403).json({ success: false, message: "Token is not valid." })
 		const { userID } = req.query
 		const userArray = [{ $match: { userID: new mongoose.Types.ObjectId(userID) } }]
@@ -78,9 +79,9 @@ export const getPost = async (req, res) => {
 }
 
 export const addPost = async (req, res) => {
-	const token = req.cookies.accessToken
+	const token = await req.headers.authorization.split(" ")[1]
 	if (!token) return res.status(401).json({ success: false, message: "Not logged in." })
-	jwt.verify(token, "secretkey", async (error, userInfo) => {
+	jwt.verify(token, process.env.JWT_SECRET, async (error, userInfo) => {
 		if (error) return res.status(403).json({ success: false, message: "Token is not valid." })
 		const { description, image } = req.body
 		const userID = userInfo.id
@@ -124,9 +125,9 @@ export const addPost = async (req, res) => {
 }
 
 export const deletePost = async (req, res) => {
-	const token = req.cookies.accessToken
+	const token = await req.headers.authorization.split(" ")[1]
 	if (!token) return res.status(401).json({ success: false, message: "Not logged in." })
-	jwt.verify(token, "secretkey", async (error, userInfo) => {
+	jwt.verify(token, process.env.JWT_SECRET, async (error, userInfo) => {
 		if (error) return res.status(403).json({ success: false, message: "Token is not valid." })
 		const { _id } = req.query
 		const userID = userInfo.id

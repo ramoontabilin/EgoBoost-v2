@@ -1,24 +1,22 @@
 import { useContext, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import Cookies from 'universal-cookie'
 import { Collections, FastRewind, Group, Groups, LocalActivity, Logout, Message, Movie, OndemandVideo, Settings, SportsEsports, Storefront } from "@mui/icons-material"
 import { AuthContext } from '../../context/authContext'
-import { makeRequest } from '../../axios'
 import noImage from '../../assets/ccclaymoji.svg'
 import './leftbar.scss'
 
 const Leftbar = ({ active }) => {
 	const { currentUser, setCurrentUser } = useContext(AuthContext)
 	const navigate = useNavigate()
-
+	const cookies = new Cookies()
 	const handleLogout = async (e) => {
 		e.preventDefault()
 		try {
-			await makeRequest.post('/api/v1/auth/logout')
-				.then(res => {
-					localStorage.removeItem('user')
-					setCurrentUser(false)
-					navigate("/login")
-				})
+			cookies.remove("TOKEN", { path: "/" })
+			localStorage.removeItem('user')
+			setCurrentUser(false)
+			navigate("/login")
 		} catch (error) {
 			console.log(error)
 		}

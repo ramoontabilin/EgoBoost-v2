@@ -3,9 +3,9 @@ import mongoose from "mongoose"
 import Follow from "../mongodb/models/follow.js"
 
 export const getFollow = async (req, res) => {
-	const token = req.cookies.accessToken
+	const token = await req.headers.authorization.split(" ")[1]
 	if (!token) return res.status(401).json({ success: false, message: "Not logged in." })
-	jwt.verify(token, "secretkey", async (error, userInfo) => {
+	jwt.verify(token, process.env.JWT_SECRET, async (error, userInfo) => {
 		if (error) return res.status(403).json({ success: false, message: "Token is not valid." })
 		const { followerUserID } = req.query
 		const followedUserID = userInfo.id
@@ -27,9 +27,9 @@ export const getFollowList = async (req, res) => {
 }
 
 export const getFollowSuggestList = async (req, res) => {
-	const token = req.cookies.accessToken
+	const token = await req.headers.authorization.split(" ")[1]
 	if (!token) return res.status(401).json({ success: false, message: "Not logged in." })
-	jwt.verify(token, "secretkey", async (error, userInfo) => {
+	jwt.verify(token, process.env.JWT_SECRET, async (error, userInfo) => {
 		if (error) return res.status(403).json({ success: false, message: "Token is not valid." })
 		await Follow.aggregate([
 			{
@@ -88,9 +88,9 @@ export const getFollowSuggestList = async (req, res) => {
 }
 
 export const addFollow = async (req, res) => {
-	const token = req.cookies.accessToken
+	const token = await req.headers.authorization.split(" ")[1]
 	if (!token) return res.status(401).json({ success: false, message: "Not logged in." })
-	jwt.verify(token, "secretkey", async (error, userInfo) => {
+	jwt.verify(token, process.env.JWT_SECRET, async (error, userInfo) => {
 		if (error) return res.status(403).json({ success: false, message: "Token is not valid." })
 		const { followerUserID } = req.body
 		const followedUserID = userInfo.id
@@ -108,9 +108,9 @@ export const addFollow = async (req, res) => {
 }
 
 export const deleteFollow = async (req, res) => {
-	const token = req.cookies.accessToken
+	const token = await req.headers.authorization.split(" ")[1]
 	if (!token) return res.status(401).json({ success: false, message: "Not logged in." })
-	jwt.verify(token, "secretkey", async (error, userInfo) => {
+	jwt.verify(token, process.env.JWT_SECRET, async (error, userInfo) => {
 		if (error) return res.status(403).json({ success: false, message: "Token is not valid." })
 		const { followerUserID } = req.query
 		const followedUserID = userInfo.id

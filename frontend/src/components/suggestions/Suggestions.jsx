@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { makeRequest } from '../../axios'
+import { authRequest } from '../../axios'
 import noImage from '../../assets/ccclaymoji.svg'
 import './suggestions.scss'
 
@@ -12,7 +12,7 @@ const Suggestions = () => {
 
 	const followMutation = useMutation(async (userID) => {
 		try {
-			await makeRequest.post(`${import.meta.env.VITE_BASE_URL}/api/v1/follow`, { followerUserID: userID })
+			await authRequest().post(`${import.meta.env.VITE_BASE_URL}/api/v1/follow`, { followerUserID: userID })
 				.then(() => {
 					setUsers(users.filter((user) => user._id !== userID))
 				})
@@ -41,7 +41,7 @@ const Suggestions = () => {
 	}
 
 	useEffect(() => {
-		makeRequest.get(`api/v1/follow/suggest`).then(res => {
+		authRequest().get(`api/v1/follow/suggest`).then(res => {
 			setUsers(res.data.data[0].result)
 		})
 	}, [])

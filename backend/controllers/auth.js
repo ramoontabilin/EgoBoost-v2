@@ -59,17 +59,12 @@ export const login = async (req, res) => {
 				if (checkPass) {
 					// Deconstruct the data to get the real object and might as get the id here
 					const { _id, ...doc } = data
-					const token = jwt.sign({ id: _id }, "secretkey")
+					const token = jwt.sign({ id: _id }, process.env.JWT_SECRET, { expiresIn: "24h" })
 					// Deconstruct again to return object without password
 					const { password, ...others } = doc._doc
 					res
-						.cookie("accessToken", token, {
-							httpOnly: true,
-							sameSite: 'none',
-							secure: true,
-						})
 						.status(200)
-						.json({ success: true, data: others })
+						.json({ success: true, data: others, token })
 				} else {
 					res.status(400).json({ success: false, message: "Wrong username or password" })
 				}
@@ -92,9 +87,9 @@ export const logout = async (req, res) => {
 }
 
 export const update = async (req, res) => {
-	const token = req.cookies.accessToken
+	const token = await req.headers.authorization.split(" ")[1]
 	if (!token) return res.status(401).json({ success: false, message: "Not logged in." })
-	jwt.verify(token, "secretkey", async (error, userInfo) => {
+	jwt.verify(token, process.env.JWT_SECRET, async (error, userInfo) => {
 		if (error) return res.status(403).json({ success: false, message: "Token is not valid." })
 		const { email, password, passwordOld, name, image, cover, city, website, imageOld, coverOld } = req.body
 		const _id = userInfo.id
@@ -185,16 +180,12 @@ export const update = async (req, res) => {
 								.then((data) => {
 									// Deconstruct the data to get the real object and might as get the id here
 									const { _id, ...doc } = data
-									const token = jwt.sign({ id: _id }, "secretkey")
+									const token = jwt.sign({ id: _id }, process.env.JWT_SECRET, { expiresIn: "24h" })
 									// Deconstruct again to return object without password
 									const { password, ...others } = doc._doc
 									res
-										.cookie("accessToken", token, {
-											secure: true,
-											sameSite: 'none',
-										})
 										.status(200)
-										.json({ success: true, data: others })
+										.json({ success: true, data: others, token })
 								})
 								.catch((error) => {
 									res.status(500).json({ success: false, message: error.message })

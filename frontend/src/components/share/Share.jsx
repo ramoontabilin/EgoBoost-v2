@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Image, Delete, FlipCameraAndroid } from '@mui/icons-material'
 import { AuthContext } from '../../context/authContext'
-import { makeRequest } from '../../axios'
+import { authRequest, makeRequest } from '../../axios'
 import noImage from '../../assets/ccclaymoji.svg'
 import './share.scss'
 
@@ -18,7 +18,7 @@ const Share = () => {
 	const mutation = useMutation(async (newPost) => {
 		try {
 			setLoading(true)
-			await makeRequest.post(`${import.meta.env.VITE_BASE_URL}/api/v1/post`, newPost)
+			await authRequest().post(`${import.meta.env.VITE_BASE_URL}/api/v1/post`, newPost)
 				.then(() => {
 					setLoading(false)
 					setDescription("")

@@ -1,8 +1,12 @@
 import axios from "axios"
+import Cookies from "universal-cookie"
 
-export const makeRequest = axios.create({
-	baseURL: import.meta.env.VITE_BASE_URL,
-	withCredentials: true,
-	credentials: 'include',
-	headers: { 'Access-Control-Allow-Origin': import.meta.env.VITE_BASE_URL, 'Content-Type': 'application/json' },
-})
+export const makeRequest = axios.create({ baseURL: import.meta.env.VITE_BASE_URL })
+
+export const authRequest = () => {
+	const cookies = new Cookies()
+	return axios.create({
+		baseURL: import.meta.env.VITE_BASE_URL,
+		headers: { 'Authorization': `Bearer ${cookies.get("TOKEN")}` },
+	})
+}

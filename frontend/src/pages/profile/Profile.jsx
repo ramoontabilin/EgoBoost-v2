@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 import { FacebookTwoTone, LinkedIn, Instagram, Pinterest, Twitter, Place, Language, Email, MoreVert, Image } from '@mui/icons-material'
 import { AuthContext } from '../../context/authContext'
-import { makeRequest } from '../../axios'
+import { authRequest, makeRequest } from '../../axios'
 import Posts from '../../components/posts/Posts'
 import noCover from '../../assets/sssquiggly.svg'
 import noImage from '../../assets/ccclaymoji.svg'
@@ -27,15 +27,15 @@ const Profile = () => {
 		})
 	)
 	const { isLoading: commentLoading, error: commentError, data: followed } = useQuery(["follow", userID], () =>
-		makeRequest.get(`/api/v1/follow?followerUserID=${userID}`).then(res => {
+		authRequest().get(`/api/v1/follow?followerUserID=${userID}`).then(res => {
 			return res.data.data
 		})
 	)
 
 	const followMutation = useMutation(async (followed) => {
 		try {
-			if (followed) return await makeRequest.delete(`${import.meta.env.VITE_BASE_URL}/api/v1/follow?followerUserID=${userID}`)
-			await makeRequest.post(`${import.meta.env.VITE_BASE_URL}/api/v1/follow`, { followerUserID: userID })
+			if (followed) return await authRequest().delete(`${import.meta.env.VITE_BASE_URL}/api/v1/follow?followerUserID=${userID}`)
+			await authRequest().post(`${import.meta.env.VITE_BASE_URL}/api/v1/follow`, { followerUserID: userID })
 		} catch (error) {
 			console.log(error.message)
 			if (error.response?.data?.message) {
@@ -55,7 +55,7 @@ const Profile = () => {
 	const profileMutation = useMutation(async (updatedUser) => {
 		try {
 			console.log(`before: ${updatedUser.name}`)
-			await makeRequest.put(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/update`, updatedUser)
+			await authRequest().put(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/update`, updatedUser)
 			console.log(`REquest: ${user.name}`)
 		} catch (error) {
 			console.log(error.message)
@@ -145,7 +145,8 @@ const Profile = () => {
 				<div className="cover">
 					<img src={(edit && cover) ? cover : user?.cover ? user?.cover : noCover} alt="User Cover" />
 					{
-						edit && <>
+						edit &&
+						<>
 							<label htmlFor="cover">
 								<div>
 									<Image />

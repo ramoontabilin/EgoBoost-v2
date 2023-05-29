@@ -15,17 +15,12 @@ import userRoute from "./routes/user.js"
 dotenv.config()
 const app = express()
 app.use((req, res, next) => {
-	res.header('Access-Control-Allow-Credentials', true)
-	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,UPDATE,OPTIONS')
-	res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept')
+	res.header("Access-Control-Allow-Origin", "*")
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization")
+	res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS")
 	next()
 })
 app.use(express.json({ limit: '50mb' }))
-app.use(cors({
-	origin: process.env.BASE_URL,
-	credentials: true,
-}))
-app.use(cookieParser())
 
 app.use('/api/v1/auth', authRoute)
 app.use('/api/v1/comment', commentRoute)

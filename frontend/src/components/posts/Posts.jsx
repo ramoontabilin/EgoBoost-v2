@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
 import { Error, ImageNotSupported, Repeat } from '@mui/icons-material'
 
-import { makeRequest } from '../../axios'
+import { authRequest } from '../../axios'
+import Suggestions from '../suggestions/Suggestions'
 import Post from '../post/Post'
 import './posts.scss'
-import Suggestions from '../suggestions/Suggestions'
 
 const Posts = ({ userID }) => {
 	const { isLoading, error, data: posts } = useQuery(["posts", userID], () =>
-		makeRequest.get(`/api/v1/post${userID ? `?userID=${userID}` : ''}`).then(res => {
+		authRequest().get(`/api/v1/post${userID ? `?userID=${userID}` : ''}`).then(res => {
 			return res.data.data
 		})
 	)

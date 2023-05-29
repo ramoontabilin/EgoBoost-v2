@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { formatDistanceToNow, parseISO } from 'date-fns'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AuthContext } from '../../context/authContext'
-import { makeRequest } from '../../axios'
+import { authRequest, makeRequest } from '../../axios'
 import noImage from '../../assets/ccclaymoji.svg'
 import './comments.scss'
 
@@ -20,7 +20,7 @@ const Comments = ({ postDescription, postID }) => {
 	const queryClient = useQueryClient()
 	const mutation = useMutation(async (newComment) => {
 		try {
-			await makeRequest.post(`${import.meta.env.VITE_BASE_URL}/api/v1/comment`, newComment)
+			await authRequest().post(`${import.meta.env.VITE_BASE_URL}/api/v1/comment`, newComment)
 		} catch (error) {
 			console.log(error.message)
 			if (error.response?.data?.message) {

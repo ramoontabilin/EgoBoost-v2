@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import { DarkModeOutlined, WbSunnyOutlined } from '@mui/icons-material'
 
 import { DarkModeContext } from '../../context/darkModeContext'
-import { makeRequest } from '../../axios'
+import { authRequest } from '../../axios'
 import './settings.scss'
 
 const Settings = () => {
@@ -22,7 +22,7 @@ const Settings = () => {
 		if (form.email) {
 			setEmailSaving(true)
 			try {
-				await makeRequest.put(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/update`, { email: form.email })
+				await authRequest().put(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/update`, { email: form.email })
 					.then((data) => {
 						setEmailMessage("Email changed!")
 						setEmailSaving(false)
@@ -46,7 +46,7 @@ const Settings = () => {
 		if (form.newPassword && form.oldPassword) {
 			setPasswordSaving(true)
 			try {
-				await makeRequest.put(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/update`, { password: form.newPassword, passwordOld: form.oldPassword })
+				await authRequest().put(`${import.meta.env.VITE_BASE_URL}/api/v1/auth/update`, { password: form.newPassword, passwordOld: form.oldPassword })
 					.then((data) => {
 						setPasswordMessage("Password changed!")
 						setPasswordSaving(false)

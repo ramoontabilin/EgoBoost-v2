@@ -5,7 +5,7 @@ import { formatDistanceToNow, parseISO } from 'date-fns'
 import { FavoriteBorderOutlined, FavoriteOutlined, TextsmsOutlined, ShareOutlined, MoreHorizOutlined, Delete, Close } from '@mui/icons-material'
 
 import { AuthContext } from '../../context/authContext'
-import { makeRequest } from '../../axios'
+import { authRequest, makeRequest } from '../../axios'
 import Comments from '../comments/Comments'
 import noImage from '../../assets/ccclaymoji.svg'
 import './post.scss'
@@ -28,8 +28,8 @@ const Post = ({ _id, user, image, description, createdAt }) => {
 	const queryClient = useQueryClient()
 	const likeMutation = useMutation(async (liked) => {
 		try {
-			if (liked) return await makeRequest.delete(`${import.meta.env.VITE_BASE_URL}/api/v1/like?postID=${_id}`)
-			await makeRequest.post(`${import.meta.env.VITE_BASE_URL}/api/v1/like`, { postID: _id })
+			if (liked) return await authRequest().delete(`${import.meta.env.VITE_BASE_URL}/api/v1/like?postID=${_id}`)
+			await authRequest().post(`${import.meta.env.VITE_BASE_URL}/api/v1/like`, { postID: _id })
 		} catch (error) {
 			console.log(error.message)
 			if (error.response?.data?.message) {
@@ -47,7 +47,7 @@ const Post = ({ _id, user, image, description, createdAt }) => {
 
 	const postMutation = useMutation(async () => {
 		try {
-			await makeRequest.delete(`${import.meta.env.VITE_BASE_URL}/api/v1/post?_id=${_id}`)
+			await authRequest().delete(`${import.meta.env.VITE_BASE_URL}/api/v1/post?_id=${_id}`)
 		} catch (error) {
 			console.log(error.message)
 			if (error.response?.data?.message) {
