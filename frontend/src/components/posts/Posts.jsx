@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
-import { Error, ImageNotSupported, Repeat } from '@mui/icons-material'
+import { Error, FlipCameraAndroid, ImageNotSupported, Repeat } from '@mui/icons-material'
 
 import { authRequest } from '../../axios'
 import Suggestions from '../suggestions/Suggestions'
 import Post from '../post/Post'
+import noImage from '../../assets/ccclaymoji.svg'
 import './posts.scss'
 
 const Posts = ({ userID }) => {
@@ -42,10 +43,29 @@ const Posts = ({ userID }) => {
 						</>
 						:
 						<>
-							<div className="message">
+							<div className="post start">
+								<h1>Welcome to EgoBoost!</h1>
+								<p>Use the power of AI to enhance your posts!</p>
+								<button className="generate" >
+									<FlipCameraAndroid />
+									<span>Generate</span>
+								</button>
+								<p>Available with comments as well!</p>
+								<div className="write">
+									<img src={noImage} alt="user" />
+									<input
+										type="text"
+										placeholder='Say something good!'
+									// value={description}
+									// onChange={e => { setDescription(e.target.value) }}
+									/>
+									<button className="comment">Generate</button>
+								</div>
+							</div>
+							{/* <div className="message">
 								<span>No posts :c</span>
 								<ImageNotSupported />
-							</div>
+							</div> */}
 							<hr />
 							<Suggestions />
 						</>
