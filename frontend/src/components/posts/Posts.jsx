@@ -50,13 +50,13 @@ const Posts = ({ userID }) => {
 									<ImageNotSupported />
 								</div> :
 								<div className="post start">
-									<h1>Welcome to EgoBoost!</h1>
-									<p>Use the power of AI to enhance your posts!</p>
+									<h1>Welcome to EgoBoost! 🎉</h1>
+									<p>Use the power of AI to enhance your posts! 🤖</p>
 									<button className="generate" >
 										<FlipCameraAndroid />
 										<span>Generate</span>
 									</button>
-									<p>Available with comments as well!</p>
+									<p>Use it to quickly make comments as well! 💫</p>
 									<div className="write">
 										<img src={noImage} alt="user" />
 										<TextareaAutosize
