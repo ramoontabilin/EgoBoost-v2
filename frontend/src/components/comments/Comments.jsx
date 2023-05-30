@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { TextareaAutosize } from '@mui/material'
 import { formatDistanceToNow, parseISO } from 'date-fns'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AuthContext } from '../../context/authContext'
@@ -70,8 +71,9 @@ const Comments = ({ postDescription, postID }) => {
 		<div className='comments'>
 			<div className="write">
 				<img src={currentUser.image ? currentUser.image : noImage} alt={currentUser.name} />
-				<input
+				<TextareaAutosize
 					type="text"
+					maxLength={500}
 					placeholder='Say something good!'
 					value={description}
 					onChange={e => { setDescription(e.target.value) }}

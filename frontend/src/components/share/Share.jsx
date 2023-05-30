@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { TextareaAutosize } from '@mui/material'
 import { Image, Delete, FlipCameraAndroid } from '@mui/icons-material'
 import { AuthContext } from '../../context/authContext'
 import { authRequest, makeRequest } from '../../axios'
@@ -84,7 +85,7 @@ const Share = () => {
 				<div className="top">
 					<img src={currentUser.image ? currentUser.image : noImage} alt={currentUser.name} />
 					<div className="content">
-						<textarea
+						<TextareaAutosize
 							type="text"
 							name="description"
 							rows={4}

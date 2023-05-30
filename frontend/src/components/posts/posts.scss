@@ -116,20 +116,30 @@
 				background-color: themed("bg");
 				border-radius: 10px;
 
+				@include mobile {
+					gap: 10px;
+				}
+
 				img {
 					width: 40px;
 					height: 40px;
 					border-radius: 50%;
 					object-fit: cover;
+
+					@include mobile {
+						display: none;
+					}
 				}
 
-				input {
+				textarea {
 					flex: 5;
 					padding: 10px;
 					border: 1px solid themed('border');
 					background-color: transparent;
 					color: themed('textColor');
 					border-radius: 6px;
+					resize: none;
+					width: 50%;
 				}
 
 				button {

@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { TextareaAutosize } from '@mui/material'
 import { Error, FlipCameraAndroid, ImageNotSupported, Repeat } from '@mui/icons-material'
 
 import { authRequest } from '../../axios'
@@ -58,7 +59,7 @@ const Posts = ({ userID }) => {
 									<p>Available with comments as well!</p>
 									<div className="write">
 										<img src={noImage} alt="user" />
-										<input
+										<TextareaAutosize
 											type="text"
 											placeholder='Say something good!'
 										/>
