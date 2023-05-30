@@ -1,0 +1,33 @@
+@import '../../style.scss';
+
+.none {
+	@include themify($themes) {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: themed('bgSoft');
+		padding: 20px 50px;
+		min-height: calc(100vh - 109px);
+		scrollbar-width: none;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+
+		@include tablet {
+			padding: 20px;
+		}
+
+		@include mobile {
+			padding: 10px;
+		}
+
+		.message {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 10px;
+		}
+	}
+}
