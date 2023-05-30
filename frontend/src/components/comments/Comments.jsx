@@ -81,7 +81,7 @@ const Comments = ({ postDescription, postID }) => {
 					disabled={loading}
 					onClick={handleSubmit}
 				>
-					{loading ? "Sending.." : "Send"}
+					{loading ? "Sending.." : description ? "Send" : "Generate"}
 				</button>
 			</div>
 			{commentLoading ? "Loading.. " :
