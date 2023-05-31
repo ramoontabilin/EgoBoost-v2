@@ -11,6 +11,7 @@ import Login from './pages/login/Login'
 import Register from './pages/register/Register'
 import None from './pages/none/None'
 import Updates from './pages/updates/Updates'
+import About from './pages/about/About'
 import { DarkModeContext } from './context/darkModeContext'
 import { AuthContext } from './context/authContext'
 import './style.scss'
@@ -72,12 +73,16 @@ const App = () => {
 					element: <Settings />
 				},
 				{
-					path: '/settings',
-					element: <Settings />
-				},
-				{
 					path: '/updates',
 					element: <Updates />
+				},
+				{
+					path: '/about',
+					element: <About />
+				},
+				{
+					path: '/settings',
+					element: <Settings />
 				},
 			]
 		},

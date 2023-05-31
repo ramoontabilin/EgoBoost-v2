@@ -90,6 +90,14 @@
 					&:hover {
 						background-color: themed("bgSoft");
 					}
+
+					&.latest {
+						display: none;
+
+						@include tablet {
+							display: flex;
+						}
+					}
 				}
 			}
 		}

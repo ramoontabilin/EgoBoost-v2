@@ -1,7 +1,7 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Cookies from 'universal-cookie'
-import { Collections, FastRewind, Favorite, Group, Groups, LocalActivity, Logout, Message, Movie, OndemandVideo, QuestionMark, Settings, SportsEsports, Storefront, Update } from "@mui/icons-material"
+import { Favorite, Groups, Home, Logout, QuestionMark, Restore, Settings, Update } from "@mui/icons-material"
 import { AuthContext } from '../../context/authContext'
 import noImage from '../../assets/ccclaymoji.svg'
 import './leftbar.scss'
@@ -32,26 +32,18 @@ const Leftbar = ({ active }) => {
 							<span>{currentUser.name}</span>
 						</div>
 					</Link>
-					{/* <div className="item">
-						<Group />
-						<span>Friends</span>
-					</div> */}
+					<div className="item">
+						<Home />
+						<span>Feed</span>
+					</div>
+					<div className="item latest">
+						<Restore />
+						<span>Latest Activities</span>
+					</div>
 					<div className="item">
 						<Groups />
 						<span>Followings</span>
 					</div>
-					{/* <div className="item">
-						<Storefront />
-						<span>Marketplace</span>
-					</div> */}
-					{/* <div className="item">
-						<OndemandVideo />
-						<span>Watch</span>
-					</div> */}
-					{/* <div className="item">
-						<FastRewind />
-						<span>Liked</span>
-					</div> */}
 					<div className="item">
 						<Favorite />
 						<span>Liked Posts</span>
@@ -59,49 +51,23 @@ const Leftbar = ({ active }) => {
 				</div>
 				<hr />
 				<div className="menu">
-					<span>Your Shortcuts</span>
-					{/* <div className="item">
-						<LocalActivity />
-						<span>Events</span>
-					</div> */}
-					{/* <div className="item">
-						<SportsEsports />
-						<span>Gaming</span>
-					</div> */}
-					{/* <div className="item">
-						<Collections />
-						<span>Gallery</span>
-					</div> */}
+					<span>Other Pages</span>
 					<Link to="/updates">
 						<div className="item">
 							<Update />
 							<span>Updates</span>
 						</div>
 					</Link>
-					<div className="item">
-						<Message />
-						<span>Contact</span>
-					</div>
-					<div className="item">
-						<QuestionMark />
-						<span>About</span>
-					</div>
+					<Link to="/about">
+						<div className="item">
+							<QuestionMark />
+							<span>About</span>
+						</div>
+					</Link>
 				</div>
 				<hr />
 				<div className="menu">
 					<span>Your Session</span>
-					{/* <div className="item">
-						<LocalActivity />
-						<span>Events</span>
-					</div> */}
-					{/* <div className="item">
-						<SportsEsports />
-						<span>Gaming</span>
-					</div> */}
-					{/* <div className="item">
-						<Collections />
-						<span>Gallery</span>
-					</div> */}
 					<Link to="/settings">
 						<div className="item">
 							<Settings />
