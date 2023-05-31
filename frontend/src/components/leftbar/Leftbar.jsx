@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Cookies from 'universal-cookie'
-import { Collections, FastRewind, Group, Groups, LocalActivity, Logout, Message, Movie, OndemandVideo, Settings, SportsEsports, Storefront } from "@mui/icons-material"
+import { Collections, FastRewind, Favorite, Group, Groups, LocalActivity, Logout, Message, Movie, OndemandVideo, QuestionMark, Settings, SportsEsports, Storefront, Update } from "@mui/icons-material"
 import { AuthContext } from '../../context/authContext'
 import noImage from '../../assets/ccclaymoji.svg'
 import './leftbar.scss'
@@ -40,17 +40,21 @@ const Leftbar = ({ active }) => {
 						<Groups />
 						<span>Followings</span>
 					</div>
-					<div className="item">
+					{/* <div className="item">
 						<Storefront />
 						<span>Marketplace</span>
-					</div>
-					<div className="item">
+					</div> */}
+					{/* <div className="item">
 						<OndemandVideo />
 						<span>Watch</span>
-					</div>
-					<div className="item">
+					</div> */}
+					{/* <div className="item">
 						<FastRewind />
-						<span>Memories</span>
+						<span>Liked</span>
+					</div> */}
+					<div className="item">
+						<Favorite />
+						<span>Liked Posts</span>
 					</div>
 				</div>
 				<hr />
@@ -68,13 +72,19 @@ const Leftbar = ({ active }) => {
 						<Collections />
 						<span>Gallery</span>
 					</div> */}
-					<div className="item">
-						<Movie />
-						<span>Videos</span>
-					</div>
+					<Link to="/updates">
+						<div className="item">
+							<Update />
+							<span>Updates</span>
+						</div>
+					</Link>
 					<div className="item">
 						<Message />
-						<span>Messages</span>
+						<span>Contact</span>
+					</div>
+					<div className="item">
+						<QuestionMark />
+						<span>About</span>
 					</div>
 				</div>
 				<hr />
@@ -92,7 +102,7 @@ const Leftbar = ({ active }) => {
 						<Collections />
 						<span>Gallery</span>
 					</div> */}
-					<Link to={`/settings`}>
+					<Link to="/settings">
 						<div className="item">
 							<Settings />
 							<span>Settings</span>

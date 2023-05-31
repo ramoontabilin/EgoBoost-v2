@@ -1,5 +1,11 @@
 @import './style.scss';
 
+body {
+	@include themify($themes) {
+		background-color: themed('bgSoft');
+	}
+}
+
 .main {
 	display: flex;
 	position: relative;
