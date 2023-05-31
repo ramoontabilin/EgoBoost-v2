@@ -16,7 +16,6 @@ cloudinary.config({
 
 export const getPost = async (req, res) => {
 	const token = await req.headers.authorization.split(" ")[1]
-	console.log("Here you go: ", token)
 	if (!token) return res.status(401).json({ success: false, message: "Not logged in." })
 	jwt.verify(token, process.env.JWT_SECRET, async (error, userInfo) => {
 		if (error) return res.status(403).json({ success: false, message: "Token is not valid." })
