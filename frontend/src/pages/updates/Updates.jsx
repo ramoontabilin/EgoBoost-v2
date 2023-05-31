@@ -10,12 +10,14 @@ const Updates = () => {
 					<span>What's New 💫</span>
 					<p>This page ig.</p>
 				</div>
+				<hr />
 				<div className="section">
 					<span>Known bugs</span>
 					<ul>
 						<li>Name and picture doesn't change locally when saving new name</li>
 					</ul>
 				</div>
+				<hr />
 				<div className="section">
 					<span>Todo</span>
 					<ul>
